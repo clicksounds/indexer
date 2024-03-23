@@ -19,9 +19,8 @@ jobs:
       - name: Checkout Index
         uses: actions/checkout@v4
         with:
-          repository: geode-sdk/mods
+          repository: clicksounds/geode-clicksound
           path: index
-          token: '${{ secrets.GEODE_BOT_PUSH_BIN_TOKEN }}'
 
       - name: Verify User
         id: verify_user
