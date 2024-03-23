@@ -1,0 +1,31 @@
+name: Add a new sound
+description: Adds click sounds t
+labels: []
+body: 
+  - type: markdown
+    attributes:
+      value: "## Click Sounds Request"
+  - type: input
+    id: name
+    attributes:
+      label: Click Sound Name
+      description: put your click sound name here
+      placeholder: Click Sound Name
+    validations:
+      required: true
+  - type: textarea
+    id: click-sounds
+    attributes:
+      label: Click Sounds
+      description: Add your click sound files here
+      placeholder: Input files here
+    validations:
+      required: false
+  - type: textarea
+    id: release-sounds
+    attributes:
+      label: Release Sounds
+      description: Add your click sound files here
+      placeholder: Input files here
+    validations:
+      required: false
