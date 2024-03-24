@@ -28,7 +28,8 @@ if 'Click Sound Name' not in issue_body and not is_old:
 	print('Not a valid entry', file=sys.stderr)
 	sys.exit(2)
 
-
+match = re.search(r'\s*?### Click Sound Name\s*?(\S+)\s*?', issue_body)
+mod_id = match.group(1)
 
 def send_webhook(mod_id):
 	from urllib import request
@@ -45,7 +46,7 @@ def send_webhook(mod_id):
 Uploaded by: [{issue_author}](https://github.com/{issue_author})
 Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
-	title = f'Added `{mod_id}`
+	title = f'Added `{mod_id}`'
 	description = 'New mod!\n' + description
 
 
