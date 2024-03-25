@@ -26,7 +26,7 @@ else:
 	issue_body = sys.argv[3]
 
 
-if '### Click Sound Name' not in issue_body or "### Add Pack" not in issue_body:
+if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 	print('Not a valid entry', file=sys.stderr)
 	sys.exit(2)
 
@@ -38,6 +38,10 @@ try:
 		folderName = sanitize_name(clickName)
 		matchfound = match.group(1)
 		click_url = matchfound[mathfound.find("("):-1]
+		print(clickName)
+		print(folderName)
+		print(matchfound)
+		print(click_url)
 		urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
 	else:
 		fail(f'Could not find the zip link')
