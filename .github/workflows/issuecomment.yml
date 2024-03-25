@@ -47,7 +47,7 @@ jobs:
 
     - name: Make Test Directory
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
-      run: mkdir testfolder
+      run: mkdir test
 
     - name: Add Entry
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
