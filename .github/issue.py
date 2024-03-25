@@ -95,9 +95,9 @@ try:
 		listdir = x.split("/")
 		listdir.pop(len(listdir) - 1)
 		if "Clicks" in listdir or "clicks" in listdir or "click" in listdir or "Click" in listdir:
-			shutil.copy("test" / folderName / x, clicks_folder / filename)
+			shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(clicks_folder / filename))
 		if "Releases" in listdir or "releases" in listdir or "release" in listdir or "Release" in listdir:
-			shutil.copy("test" / folderName / x, releases_folder / filename)
+			shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(releases_folder, filename))
 
 except Exception as inst:
 	fail(f'Could not populate click folder {version_mod_directory}: {inst}')
