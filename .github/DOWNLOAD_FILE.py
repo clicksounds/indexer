@@ -17,6 +17,11 @@ def sanitize_name(name):
     # Remove any characters that are not letters, numbers, underscores, or periods
     return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "")
 
+def save(clickName, folderName):
+	if os.getenv('GITHUB_OUTPUT'):
+            with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
+				file.write(f'click_name={clickName}\nfolder_name={folderName}\n')
+
 if len(sys.argv) == 3:
 	issue_body = os.environ['ISSUE_BODY']
 else:
@@ -40,9 +45,6 @@ try:
 		folderName = sanitize_name(clickName)
 		matchfound = match.group(1)
 		click_url = matchfound[(matchfound.find("(") + 1):-1]
-		if os.getenv('GITHUB_OUTPUT'):
-            with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
-			    file.write(f'click_name={clickName}\nfolder_name={folderName}\n')
         
         print(clickName)
         print(folderName)
