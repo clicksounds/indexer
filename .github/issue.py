@@ -51,7 +51,7 @@ except Exception as inst:
 
 
 try:
-	archive = zipfile.ZipFile(folderName + '.zip', 'r')
+	archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
 
 	file_list = archive.namelist()
 	print(file_list)
