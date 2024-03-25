@@ -77,7 +77,8 @@ jobs:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
         ACTUALLY_ACCEPTING: YES
-
+        CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
+        FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
     - name: Push to clicks repository
       shell: bash
       if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && github.event.comment.body == '!accept'

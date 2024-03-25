@@ -8,50 +8,23 @@ import re
 from pathlib import Path
 import subprocess
 import time
+import shutil
 
 def fail(msg):
 	print(f'Fail: {msg}', file=sys.stderr)
 	sys.exit(1)
 
-def sanitize_name(name):
-    # Remove any characters that are not letters, numbers, underscores, or periods
-    return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "")
 
 index_path = Path(sys.argv[1])
 issue_author = sys.argv[2]
+clickName = os.environ['CLICK_NAME']
+folderName = os.environ['FOLDER_NAME']
 if len(sys.argv) == 3:
 	issue_body = os.environ['ISSUE_BODY']
 else:
 	# not passing issue body as a system argument for injection reasons
 	# but its still here for testing
 	issue_body = sys.argv[3]
-
-
-if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
-	print('Not a valid entry', file=sys.stderr)
-	sys.exit(2)
-
-try:
-	match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
-	match2 = re.search(r'### Click Sound Name\s\s(.+)', issue_body)
-	print(match)
-	print(match2)
-	time.sleep(2)
-	if match and match2:
-		clickName = match2.group(1)
-		folderName = sanitize_name(clickName)
-		matchfound = match.group(1)
-		click_url = matchfound[(matchfound.find("(") + 1):-1]
-		print(clickName)
-		print(folderName)
-		print(matchfound)
-		print(click_url)
-		urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
-	else:
-		fail(f'Could not find the zip link')
-
-except Exception as inst:
-	fail(f'Could not download the zip file: {inst}')
 
 
 try:
@@ -65,9 +38,6 @@ except Exception as inst:
 
 
 
-
-except Exception as inst:
-	fail(f'Could not download the zip file: {inst}')
 
 def send_webhook(mod_id):
 	from urllib import request
@@ -111,7 +81,7 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	request.urlopen(req, data=json.dumps(data).encode('utf-8'))
 
 try:
-	mod_directory = index_path / 'MultipleClicks'
+	mod_directory = index_path / 'MultipleClick'
 	version_mod_directory = mod_directory / folderName
 	version_mod_directory.mkdir(parents=True, exist_ok=False)
 	clicks_folder = version_mod_directory / "Clicks"
@@ -122,10 +92,11 @@ try:
 	for x in file_list:
 		listdir = x.split("/")
 		listdir.pop(len(listdir) - 1)
+		filename = x.split("/")[len(x) - 1]
 		if "Clicks" in listdir or "clicks" in listdir or "click" in listdir or "Click" in listdir:
-			archive.extract(x, path=clicks_folder)
+			shutil.copy("test" / folderName / x, clicks_folder / filename)
 		if "Releases" in listdir or "releases" in listdir or "release" in listdir or "Release" in listdir:
-			archive.extract(x, path=releases_folder)
+			shutil.copy("test" / folderName / x, releases_folder / filename)
 
 except Exception as inst:
 	fail(f'Could not populate click folder {version_mod_directory}: {inst}')

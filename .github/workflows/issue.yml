@@ -39,6 +39,24 @@ jobs:
       - name: Make Test Directory
         run: mkdir test
 
+
+
+      - name: download file 
+        id: boo_doop
+        shell: bash
+        run: python3 code/.github/DOWNLOAD_FILE.py clicks $ISSUE_AUTHOR > result.txt 2> err.txt
+        env:
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+
+      - name: Unzip DOwnload file
+        run: |
+          7z x "/test/$FOLDER_NAME.zip" -o"./test/$FOLDER_NAME"
+        env:
+          CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
+          FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
+
       - name: Add Entry
         id: add_entry
         shell: bash
@@ -84,13 +102,16 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
+          CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
+          FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
 
       - name: Push to clicks repository
         shell: bash
         if: steps.add_entry.outputs.push_entry == 'YES' && steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.has_issues == 'NO'
         working-directory: ${{ github.workspace }}/clicks
         run: |
-          git config --global user.name "Click Sound Adder"
+          git config --global user.name "$ISSUE_AUTHOR"
+          git config --global user.email "${{ github.event.issue.user.email }}" || echo "user doesn't have an email"
           git add -A
           git commit -m "New click from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}"
           git config --global user.email "${{ secrets.COOP_BOT_EMAIL }}"
@@ -98,6 +119,7 @@ jobs:
           git push -u origin main
         env:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          ISSUE_AUTHOR_EMAIL: ${{ github.event.issue.user.email }}
       
       - name: Close because invalid
         if: steps.add_entry.outputs.issue_err != ''

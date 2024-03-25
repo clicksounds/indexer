@@ -1,0 +1,56 @@
+import json
+import hashlib
+import os
+import sys
+import zipfile
+import urllib.request
+import re
+from pathlib import Path
+import subprocess
+import time
+
+def fail(msg):
+	print(f'Fail: {msg}', file=sys.stderr)
+	sys.exit(1)
+
+def sanitize_name(name):
+    # Remove any characters that are not letters, numbers, underscores, or periods
+    return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "")
+
+if len(sys.argv) == 3:
+	issue_body = os.environ['ISSUE_BODY']
+else:
+	# not passing issue body as a system argument for injection reasons
+	# but its still here for testing
+	issue_body = sys.argv[3]
+
+
+if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
+	print('Not a valid entry', file=sys.stderr)
+	sys.exit(2)
+
+try:
+	match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
+	match2 = re.search(r'### Click Sound Name\s\s(.+)', issue_body)
+	print(match)
+	print(match2)
+	time.sleep(2)
+	if match and match2:
+		clickName = match2.group(1)
+		folderName = sanitize_name(clickName)
+		matchfound = match.group(1)
+		click_url = matchfound[(matchfound.find("(") + 1):-1]
+		if os.getenv('GITHUB_OUTPUT'):
+            with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
+			    file.write(f'click_name={clickName}\nfolder_name={folderName}\n')
+        
+        print(clickName)
+        print(folderName)
+		print(matchfound)
+		print(click_url)
+		urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
+	else:
+		fail(f'Could not find the zip link')
+
+except Exception as inst:
+	fail(f'Could not download the zip file: {inst}')
