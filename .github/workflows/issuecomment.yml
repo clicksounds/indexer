@@ -11,6 +11,7 @@ env:
 
 jobs:
   check_issues:
+    name: 
     runs-on: ubuntu-latest
     outputs:
       dirs: ${{ steps.dirs.outputs.dirs }}
@@ -19,22 +20,34 @@ jobs:
     if: ${{ !github.event.issue.pull_request }}
 
     steps:        
-    - name: Checkout Indexer
-      uses: actions/checkout@v3
+    - name: Checkout Clicks Indexer
+      uses: actions/checkout@v4
       with:
         path: code
 
-    - name: Checkout Index
-      uses: actions/checkout@v3
+    - name: Checkout Clicks Repo
+      uses: actions/checkout@v4
       with:
+        token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
+        repository: clicksounds/clicks
+        path: clicks
+
+    - name: Checkout Mod Source
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
         repository: clicksounds/geode-clicksound
-        path: index
+        path: modsource
 
     - name: Verify User
       id: verify_user
       shell: bash
       run: |
-        echo result=`python3 code/.github/verify2.py index $COMMENT_AUTHOR` >> $GITHUB_OUTPUT
+        echo result=`python3 code/.github/verify2.py modsource $COMMENT_AUTHOR` >> $GITHUB_OUTPUT
+
+    - name: Make Test Directory
+      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
+      run: mkdir testfolder
 
     - name: Add Entry
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
@@ -43,7 +56,7 @@ jobs:
       run: |
 
         set +e
-        python3 code/.github/issue.py index $ISSUE_AUTHOR >> result.txt
+        python3 code/.github/issue.py clicks $ISSUE_AUTHOR >> result.txt
         RESULT=$?
         set -e
 
@@ -66,16 +79,16 @@ jobs:
         VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
         ACTUALLY_ACCEPTING: YES
 
-    - name: Push to index
+    - name: Push to clicks repository
       shell: bash
       if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && github.event.comment.body == '!accept'
-      working-directory: ${{ github.workspace }}/index
+      working-directory: ${{ github.workspace }}/clicks
       run: |
-        git config --local user.email "${{ secrets.GEODE_BOT_EMAIL }}"
-        git config --local user.name "GeodeBot"
+        git config --local user.email "${{ secrets.COOP_BOT_EMAIL }}"
+        git config --local user.name "Click Sound Adder"
         git add -A
-        git commit -m "Update from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}" -m "Accepted by: $COMMENT_AUTHOR"
-        git remote set-url origin "https://GeodeBot:${{ secrets.GEODE_BOT_PUSH_BIN_TOKEN }}@github.com/geode-sdk/mods.git"
+        git commit -m "New click from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}" -m "Accepted by: $COMMENT_AUTHOR"
+        git remote set-url origin "https://x-access-token:${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}@github.com/clicksounds/clicks.git"
         git push -u origin main
     
     - name: Close Issue

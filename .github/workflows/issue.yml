@@ -1,4 +1,4 @@
-name: Add entry new
+name: Check new request
 
 on:
   issues:
@@ -7,28 +7,38 @@ on:
 # Stolen from geodes indexer lol
 jobs:
   issue_created:
-    name: Issue test
+    name: Check Issue
     if: (!github.event.issue.pull_request && github.event.issue.state == 'open')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Indexer
+      - name: Checkout Clicks Indexer
         uses: actions/checkout@v4
         with:
           path: code
 
-      - name: Checkout Index
+      - name: Checkout Clicks Repo
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
+          repository: clicksounds/clicks
+          path: clicks
+      
+      - name: Checkout Mod Source
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
           repository: clicksounds/geode-clicksound
-          path: index
+          path: modsource
 
       - name: Verify User
         id: verify_user
         shell: bash
         run: |
-          echo result=`python3 code/.github/verify.py index $ISSUE_AUTHOR` >> $GITHUB_OUTPUT
+          echo result=`python3 code/.github/verify.py modsource $ISSUE_AUTHOR` >> $GITHUB_OUTPUT
         env:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+      - name: Make Test Directory
+        run: mkdir testfolder
 
       - name: Add Entry
         id: add_entry
@@ -37,7 +47,7 @@ jobs:
           echo has_issues=NO >> $GITHUB_OUTPUT
 
           set +e
-          python3 code/.github/issue.py index $ISSUE_AUTHOR > result.txt 2> err.txt
+          python3 code/.github/issue.py clicks $ISSUE_AUTHOR > result.txt 2> err.txt
           RESULT=$?
           set -e
 
@@ -76,16 +86,16 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
 
-      - name: Push to index
+      - name: Push to clicks repository
         shell: bash
         if: steps.add_entry.outputs.push_entry == 'YES' && steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.has_issues == 'NO'
-        working-directory: ${{ github.workspace }}/index
+        working-directory: ${{ github.workspace }}/clicks
         run: |
-          git config --local user.email "${{ secrets.GEODE_BOT_EMAIL }}"
-          git config --local user.name "GeodeBot"
+          git config --local user.email "${{ secrets.COOP_BOT_EMAIL }}"
+          git config --local user.name "Click Sound Adder"
           git add -A
-          git commit -m "Update from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}"
-          git remote set-url origin "https://GeodeBot:${{ secrets.GEODE_BOT_PUSH_BIN_TOKEN }}@github.com/geode-sdk/mods.git"
+          git commit -m "New click from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}"
+          git remote set-url origin "https://x-access-token:${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}@github.com/clicksounds/clicks.git"
           git push -u origin main
         env:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
@@ -104,10 +114,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BODY: ${{ steps.add_entry.outputs.issue_output }}
 
-      - name: Comment waiting for staff
+      - name: Comment waiting for approver
         uses: peter-evans/create-or-update-comment@v4
         if: (steps.verify_user.outputs.result == 'NO' || steps.add_entry.outputs.has_issues == 'YES') && steps.add_entry.outputs.push_entry == 'YES'
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
             Waiting for a person who can approve to comment "!accept" to accept the entry.
+            ${{ steps.add_entry.outputs.issue_output }}

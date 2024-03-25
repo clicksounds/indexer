@@ -14,18 +14,10 @@ body:
     validations:
       required: true
   - type: textarea
-    id: click-sounds
+    id: zip
     attributes:
-      label: Click Sounds
-      description: Add your click sound files here
+      label: Add Pack
+      description: Add your click sound files here in a **COMPRESSED *ZIP* FILE**, NOTHING ELSE
       placeholder: Input files here
     validations:
-      required: false
-  - type: textarea
-    id: release-sounds
-    attributes:
-      label: Release Sounds
-      description: Add your click sound files here
-      placeholder: Input files here
-    validations:
-      required: false
+      required: true

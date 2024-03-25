@@ -12,6 +12,9 @@ def fail(msg):
 	print(f'Fail: {msg}', file=sys.stderr)
 	sys.exit(1)
 
+def sanitize_name(name):
+    # Remove any characters that are not letters, numbers, underscores, or periods
+    return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_")
 
 index_path = Path(sys.argv[1])
 issue_author = sys.argv[2]
@@ -22,14 +25,41 @@ else:
 	# but its still here for testing
 	issue_body = sys.argv[3]
 
-is_old = sys.argv[4] == 'old' if len(sys.argv) > 4 else False
 
-if 'Click Sound Name' not in issue_body and not is_old:
+if '### Click Sound Name' not in issue_body or "### Add Pack" not in issue_body:
 	print('Not a valid entry', file=sys.stderr)
 	sys.exit(2)
 
-match = re.search(r'\s*?### Click Sound Name\s*?(\S+)\s*?', issue_body)
-mod_id = match.group(1)
+try:
+	match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body);
+	match2 = re.search(r'\s*?### Click Sound Name\s*?(\S+)\s*?', issue_body);
+	if match and match2:
+		clickName = match2.group(1)
+		folderName = sanitize_name(clickName)
+		matchfound = match.group(1)
+		click_url = matchfound[mathfound.find("("):-1]
+		urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
+	else:
+		fail(f'Could not find the zip link')
+
+except Exception as inst:
+	fail(f'Could not download the zip file: {inst}')
+
+
+try:
+	archive = zipfile.ZipFile(folderName + '.zip', 'r')
+
+	file_list = archive.namelist()
+	print(file_list)
+
+except Exception as inst:
+	fail(f'Not a valid geode file: {inst}')
+
+
+
+
+except Exception as inst:
+	fail(f'Could not download the zip file: {inst}')
 
 def send_webhook(mod_id):
 	from urllib import request
@@ -40,14 +70,16 @@ def send_webhook(mod_id):
 
 	issue_author = os.getenv('ISSUE_AUTHOR', '?')
 	comment_author = os.getenv('COMMENT_AUTHOR', '?')
-
-	description = f'''https://geode-sdk.org/mods/{mod_id}
-
+	if comment_author == issue_author:
+		description = f'''
+Uploaded by: [{issue_author}](https://github.com/{issue_author})'''
+	else:
+		description = f'''
 Uploaded by: [{issue_author}](https://github.com/{issue_author})
 Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
 	title = f'Added `{mod_id}`'
-	description = 'New mod!\n' + description
+	description = 'New click added!\n' + description
 
 
 	embeds = [
@@ -86,7 +118,7 @@ if potential_issues:
 try:
 	# ignore potential issues if this is triggered by a staff !accept command
 	if (os.getenv('ACTUALLY_ACCEPTING') == 'YES' or not potential_issues) and os.getenv('VERIFY_USER_RESULT') == 'YES':
-		send_webhook(mod_id)
+		#send_webhook(mod_id)
 	else:
 		with open('silly_log.txt', 'a') as file:
 			file.write("not sending webhook :P\n")
