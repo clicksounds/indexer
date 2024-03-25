@@ -90,9 +90,10 @@ try:
 	releases_folder.mkdir(parents=True, exist_ok=True)
 
 	for x in file_list:
+		filename = x.split("/")
+		filename = filename[len(filename) - 1]
 		listdir = x.split("/")
 		listdir.pop(len(listdir) - 1)
-		filename = x.split("/")[len(x) - 1]
 		if "Clicks" in listdir or "clicks" in listdir or "click" in listdir or "Click" in listdir:
 			shutil.copy("test" / folderName / x, clicks_folder / filename)
 		if "Releases" in listdir or "releases" in listdir or "release" in listdir or "Release" in listdir:
