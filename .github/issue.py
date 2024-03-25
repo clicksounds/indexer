@@ -37,7 +37,7 @@ try:
 		clickName = match2.group(1)
 		folderName = sanitize_name(clickName)
 		matchfound = match.group(1)
-		click_url = matchfound[matchfound.find("("):-1]
+		click_url = matchfound[(matchfound.find("(") + 1):-1]
 		print(clickName)
 		print(folderName)
 		print(matchfound)
