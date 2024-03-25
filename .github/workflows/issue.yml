@@ -91,9 +91,9 @@ jobs:
         run: |
           git config --global user.name "Click Sound Adder"
           git config --global user.email "${{ secrets.COOP_BOT_EMAIL }}"
+          git remote set-url origin "https://coopeeobot:${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}@github.com/clicksounds/clicks.git"
           git add -A
           git commit -m "New click from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}"
-          git remote set-url origin "https://coopeeobot:${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}@github.com/clicksounds/clicks.git"
           git push -u origin main
         env:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
