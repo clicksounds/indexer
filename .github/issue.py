@@ -134,4 +134,4 @@ except Exception as e:
 
 if os.getenv('GITHUB_OUTPUT'):
 	with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
-		file.write(f'mod_id={mod_id}\n')
+		file.write(f'mod_id={clickName}\n')
