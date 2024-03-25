@@ -7,6 +7,7 @@ import urllib.request
 import re
 from pathlib import Path
 import subprocess
+import time
 
 def fail(msg):
 	print(f'Fail: {msg}', file=sys.stderr)
@@ -33,6 +34,7 @@ if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 try:
 	match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body);
 	match2 = re.search(r'### Click Sound Name\r\n\r\n(.+)', issue_body);
+	time.sleep(2)
 	if match and match2:
 		clickName = match2.group(1)
 		folderName = sanitize_name(clickName)
