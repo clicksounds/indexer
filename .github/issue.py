@@ -123,6 +123,7 @@ try:
 	# ignore potential issues if this is triggered by a staff !accept command
 	if (os.getenv('ACTUALLY_ACCEPTING') == 'YES' or not potential_issues) and os.getenv('VERIFY_USER_RESULT') == 'YES':
 		#send_webhook(mod_id)
+		print("hello")
 	else:
 		with open('silly_log.txt', 'a') as file:
 			file.write("not sending webhook :P\n")
