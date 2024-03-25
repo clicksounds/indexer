@@ -32,8 +32,10 @@ if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 	sys.exit(2)
 
 try:
-	match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body);
-	match2 = re.search(r'### Click Sound Name\r\n\r\n(.+)', issue_body);
+	match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
+	match2 = re.search(r'### Click Sound Name\r\n\r\n(.+)', issue_body)
+	print(match)
+	print(match2)
 	time.sleep(2)
 	if match and match2:
 		clickName = match2.group(1)
