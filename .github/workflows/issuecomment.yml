@@ -43,6 +43,8 @@ jobs:
       shell: bash
       run: |
         echo result=`python3 code/.github/verify2.py modsource $COMMENT_AUTHOR` >> $GITHUB_OUTPUT
+      env:
+        COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
 
     - name: Make Test Directory
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
