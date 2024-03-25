@@ -48,6 +48,25 @@ jobs:
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
       run: mkdir test
 
+
+
+    - name: download file 
+      id: boo_doop
+      shell: bash
+      run: python3 code/.github/DOWNLOAD_FILE.py clicks $ISSUE_AUTHOR > result.txt 2> err.txt
+      env:
+        ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+        COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
+        ISSUE_BODY: ${{ github.event.issue.body }}
+
+    - name: Unzip DOwnload file
+      run: |
+        7z x "/test/$FOLDER_NAME.zip" -o"./test/$FOLDER_NAME"
+      env:
+        CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
+        FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
+
+
     - name: Add Entry
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
       id: add_entry
@@ -84,9 +103,10 @@ jobs:
       if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && github.event.comment.body == '!accept'
       working-directory: ${{ github.workspace }}/clicks
       run: |
-        git config --global user.name "Click Sound Adder"
+        git config --global user.name "$ISSUE_AUTHOR" || git config --global user.name "Click Sounds Adder"
+        git config --global user.email "${{ github.event.issue.user.email }}" || echo "user doesn't have an email"
         git add -A
-        git commit -m "New click from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}" -m "Accepted by: $COMMENT_AUTHOR"
+        git commit -m "New click - ${{ steps.add_entry.outputs.mod_id }}" -m "Accepted by: $COMMENT_AUTHOR"
         git config --global user.email "${{ secrets.COOP_BOT_EMAIL }}"
           git remote set-url origin "https://coopeeobot:${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}@github.com/clicksounds/clicks.git"
         git push -u origin main
