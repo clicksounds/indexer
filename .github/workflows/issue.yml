@@ -38,7 +38,7 @@ jobs:
         env:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
       - name: Make Test Directory
-        run: mkdir testfolder
+        run: mkdir test
 
       - name: Add Entry
         id: add_entry
