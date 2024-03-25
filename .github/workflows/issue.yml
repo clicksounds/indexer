@@ -41,7 +41,7 @@ jobs:
 
 
 
-      - name: download file 
+      - name: download file
         id: boo_doop
         shell: bash
         run: python3 code/.github/DOWNLOAD_FILE.py clicks $ISSUE_AUTHOR > result.txt 2> err.txt
@@ -52,7 +52,7 @@ jobs:
 
       - name: Unzip DOwnload file
         run: |
-          7z x "/test/$FOLDER_NAME.zip" -o"./test/$FOLDER_NAME"
+          7z x "./test/$FOLDER_NAME.zip" -o"./test/$FOLDER_NAME"
         env:
           CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
           FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
