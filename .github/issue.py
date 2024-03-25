@@ -122,9 +122,9 @@ try:
 	for x in file_list:
 		listdir = x.split("/")
 		listdir.pop(len(listdir) - 1)
-		if "Clicks" in listdir:
+		if "Clicks" in listdir or "clicks" in listdir or "click" in listdir or "Click" in listdir:
 			archive.extract(x, path=clicks_folder)
-		if "Releases" in listdir:
+		if "Releases" in listdir or "releases" in listdir or "release" in listdir or "Release" in listdir:
 			archive.extract(x, path=releases_folder)
 
 except Exception as inst:
