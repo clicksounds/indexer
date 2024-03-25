@@ -11,7 +11,7 @@ env:
 
 jobs:
   check_issues:
-    name: 
+    name: Check Issue
     runs-on: ubuntu-latest
     outputs:
       dirs: ${{ steps.dirs.outputs.dirs }}
@@ -28,14 +28,12 @@ jobs:
     - name: Checkout Clicks Repo
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
         repository: clicksounds/clicks
         path: clicks
 
     - name: Checkout Mod Source
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
         repository: clicksounds/geode-clicksound
         path: modsource
 
@@ -84,10 +82,10 @@ jobs:
       if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && github.event.comment.body == '!accept'
       working-directory: ${{ github.workspace }}/clicks
       run: |
-        git config --local user.email "${{ secrets.COOP_BOT_EMAIL }}"
         git config --local user.name "Click Sound Adder"
         git add -A
         git commit -m "New click from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}" -m "Accepted by: $COMMENT_AUTHOR"
+        git config --local user.email "${{ secrets.COOP_BOT_EMAIL }}"
         git remote set-url origin "https://x-access-token:${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}@github.com/clicksounds/clicks.git"
         git push -u origin main
     
@@ -96,4 +94,4 @@ jobs:
       if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && github.event.comment.body == '!accept'
       with:
         issue-number: ${{ github.event.issue.number }}
-        comment: Successfully added the mod!      
+        comment: Successfully added your click sound!!      

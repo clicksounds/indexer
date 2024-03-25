@@ -14,7 +14,7 @@ def fail(msg):
 
 def sanitize_name(name):
     # Remove any characters that are not letters, numbers, underscores, or periods
-    return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_")
+    return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "")
 
 index_path = Path(sys.argv[1])
 issue_author = sys.argv[2]
@@ -106,7 +106,25 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	}
 	request.urlopen(req, data=json.dumps(data).encode('utf-8'))
 
+try:
+	mod_directory = index_path / 'MultipleClicks'
+	version_mod_directory = mod_directory / folderName
+	version_mod_directory.mkdir(parents=True, exist_ok=False)
+	clicks_folder = version_mod_directory / "Clicks"
+	releases_folder = version_mod_directory / "Releases"
+	clicks_folder.mkdir(parents=True, exist_ok=True)
+	releases_folder.mkdir(parents=True, exist_ok=True)
 
+	for x in file_list:
+		listdir = x.split("/")
+		listdir.pop(len(listdir) - 1)
+		if "Clicks" in listdir:
+			archive.extract(x, path=clicks_folder)
+		if "Releases" in listdir:
+			archive.extract(x, path=releases_folder)
+
+except Exception as inst:
+	fail(f'Could not populate click folder {version_mod_directory}: {inst}')
 
 potential_issues = []
 if potential_issues:

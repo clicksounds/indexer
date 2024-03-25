@@ -19,14 +19,12 @@ jobs:
       - name: Checkout Clicks Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
           repository: clicksounds/clicks
           path: clicks
       
       - name: Checkout Mod Source
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}
           repository: clicksounds/geode-clicksound
           path: modsource
 
@@ -91,10 +89,10 @@ jobs:
         if: steps.add_entry.outputs.push_entry == 'YES' && steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.has_issues == 'NO'
         working-directory: ${{ github.workspace }}/clicks
         run: |
-          git config --local user.email "${{ secrets.COOP_BOT_EMAIL }}"
           git config --local user.name "Click Sound Adder"
           git add -A
           git commit -m "New click from $ISSUE_AUTHOR - ${{ steps.add_entry.outputs.mod_id }}"
+          git config --local user.email "${{ secrets.COOP_BOT_EMAIL }}"
           git remote set-url origin "https://x-access-token:${{ secrets.COOP_BOT_PUSH_BIN_TOKEN }}@github.com/clicksounds/clicks.git"
           git push -u origin main
         env:
@@ -120,5 +118,5 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Waiting for a person who can approve to comment "!accept" to accept the entry.
+            Waiting for a person who can approve to comment "!accept" to accept the click sound request.
             ${{ steps.add_entry.outputs.issue_output }}
