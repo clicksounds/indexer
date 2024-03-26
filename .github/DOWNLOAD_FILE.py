@@ -17,9 +17,12 @@ def sanitize_name(name):
     return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "")
 
 def save(clickName, folderName, ee):
+    print(clickName)
+    print(folderName)
+    print(ee)
     if os.getenv('GITHUB_OUTPUT'):
         with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
-            file.write(f'click_name={clickName}\nfolder_name={folderName}\ntype={ee}\n')
+            file.write(f'click_name={clickName}\nfolder={folderName}\ntype={ee}\n')
 
 issue_body = os.environ['ISSUE_BODY']
 
