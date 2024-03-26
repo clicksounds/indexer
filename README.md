@@ -1,4 +1,7 @@
 # Click Sounds Indexer
 This is for you to submit click sounds for the Click Sounds mod!
 
-<sub><sup>Some Features are still work in progress but will be finished ^w^</sup></sub>
+# Basic guidelines
+* No dupe sounds 
+* Not alot of Background noise
+* Clicks being too long (i recommend not going >1s)
