@@ -13,6 +13,18 @@ body:
       placeholder: Click Sound Name
     validations:
       required: true
+  - type: radiobuttons
+    id: type
+    attributes:
+      label: Type Of Click Sound
+      description: Choose what type your Click Sound is. is it useful or is it a meme sound?
+      options:
+        - label: Useful
+          required: true
+        - label: Meme
+          required: true
+    validations:
+      required: true
   - type: textarea
     id: zip
     attributes:
