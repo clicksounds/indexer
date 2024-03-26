@@ -52,23 +52,37 @@ jobs:
 
 
 
-    - name: download file
+    - name: Download File
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
       id: boo_doop
       shell: bash
-      run: python3 code/.github/DOWNLOAD_FILE.py
+      run: |
+        set +e
+        python3 code/.github/DOWNLOAD_FILE.py >> result.txt
+        RESULT=$?
+        set -e
+
+        cat result.txt
+
+        echo "any silly errors?"
+        if [ -f silly_log.txt ]; then
+          cat silly_log.txt
+        fi
+
+        if [ $RESULT -eq 0 ]; then
+          echo push_entry=YES >> $GITHUB_OUTPUT
+        else
+          echo push_entry=NO >> $GITHUB_OUTPUT
+        fi
       env:
         ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
         COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
         ISSUE_BODY: ${{ github.event.issue.body }}
 
-    - name: Unzip DOwnload file
+    - name: Unzip Downloaded File
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
       run: |
-        7z x "./test/$FOLDER_NAME.zip" -o"./test/$FOLDER_NAME"
-      env:
-        CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
-        FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
+        7z x "./test/${{ steps.boo_doop.outputs.folder_name }}.zip" -o"./test/${{ steps.boo_doop.outputs.folder_name }}"
 
 
     - name: Add Entry

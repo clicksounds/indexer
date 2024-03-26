@@ -41,21 +41,47 @@ jobs:
 
 
 
-      - name: download file
+      - name: Download File
         id: boo_doop
         shell: bash
-        run: python3 code/.github/DOWNLOAD_FILE.py
+        run: |
+          echo has_issues=NO >> $GITHUB_OUTPUT
+
+          set +e
+          python3 code/.github/DOWNLOAD_FILE.py > result.txt 2> err.txt
+          RESULT=$?
+          set -e
+
+          echo "output is"
+          cat result.txt
+
+          echo "any silly errors?"
+          if [ -f silly_log.txt ]; then
+            cat silly_log.txt
+          fi
+
+          EOF=$(openssl rand -hex 8)
+
+          {
+            echo "issue_output<<$EOF"
+            cat result.txt
+            echo "$EOF"
+          } >> "$GITHUB_OUTPUT"
+            
+          {
+            echo "issue_err<<$EOF"
+            cat err.txt
+            echo "$EOF"
+          } >> "$GITHUB_OUTPUT"
         env:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
           COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
           ISSUE_BODY: ${{ github.event.issue.body }}
 
-      - name: Unzip DOwnload file
+      - name: Unzip Download File
         run: |
-          7z x "./test/$FOLDER_NAME.zip" -o"./test/$FOLDER_NAME"
-        env:
-          CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
-          FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
+          7z x "./test/${{ steps.boo_doop.outputs.folder_name }}.zip" -o"./test/${{ steps.boo_doop.outputs.folder_name }}"
+
 
       - name: Add Entry
         id: add_entry
