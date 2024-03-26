@@ -19,7 +19,7 @@ def sanitize_name(name):
 def save(clickName, folderName, ee):
     if os.getenv('GITHUB_OUTPUT'):
         with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
-            file.write(f'click_name={clickName}\nfolder_name={folderName}\ntype={ee}')
+            file.write(f'click_name={clickName}\nfolder_name={folderName}\ntype={ee}\n')
 
 issue_body = os.environ['ISSUE_BODY']
 

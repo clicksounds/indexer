@@ -56,7 +56,7 @@ jobs:
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
       id: boo_doop
       shell: bash
-      run: python3 code/.github/DOWNLOAD_FILE.py clicks $ISSUE_AUTHOR > result.txt 2> err.txt
+      run: python3 code/.github/DOWNLOAD_FILE.py
       env:
         ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
         COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
