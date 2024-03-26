@@ -29,7 +29,7 @@ if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 
 try:
     match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
-    match3 = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
+    match3 = re.search(r'\s*?### Type of Click Sound\s*?(\S+)\s*?', issue_body)
     match2 = re.search(r'### Click Sound Name\s\s(.+)', issue_body)
     time.sleep(2)
     if match and match2 and match3:

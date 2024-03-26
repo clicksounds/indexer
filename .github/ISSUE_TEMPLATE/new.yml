@@ -16,7 +16,7 @@ body:
   - type: dropdown
     id: type
     attributes:
-      label: Type Of Click Sound
+      label: Type of Click Sound
       description: Choose what type your Click Sound is. is it useful or is it a meme sound?
       options:
         - Useful
