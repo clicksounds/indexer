@@ -31,9 +31,6 @@ try:
     match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
     match3 = re.search(r'\s*?### Type of Click Sound\s*?(\S+)\s*?', issue_body)
     match2 = re.search(r'### Click Sound Name\s\s(.+)', issue_body)
-    print(match)
-    print(match3)
-    print(match2)
     time.sleep(2)
     if match and match2 and match3:
         clickName = match2.group(1)
@@ -42,7 +39,8 @@ try:
         click_url = matchfound[(matchfound.find("(") + 1):-1]
         typee = match3.group(1)
         if typee != "Useful" and typee != "Meme":
-            fail("Click Type must be \"Useful\" or \"Release\"")
+            print('Click Type must be \"Useful\" or \"Release\"', file=sys.stderr)
+            sys.exit(2)
         save(clickName, folderName, typee)
         urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
     else:
