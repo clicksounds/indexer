@@ -40,7 +40,10 @@ try:
         folderName = sanitize_name(clickName)
         matchfound = match.group(1)
         click_url = matchfound[(matchfound.find("(") + 1):-1]
-        save(clickName, folderName)
+        typee = match3.group(1)
+        if typee != "Useful" and typee != "Meme":
+            fail("Click Type must be \"Useful\" or \"Release\"")
+        save(clickName, folderName, typee)
         urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
     else:
         fail(f'Could not find the zip link')

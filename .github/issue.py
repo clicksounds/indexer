@@ -18,6 +18,7 @@ def fail(msg):
 index_path = Path(sys.argv[1])
 issue_author = sys.argv[2]
 clickName = os.environ['CLICK_NAME']
+clickType = os.environ['CLICK_TYPE']
 folderName = os.environ['FOLDER_NAME']
 if len(sys.argv) == 3:
 	issue_body = os.environ['ISSUE_BODY']
@@ -81,7 +82,7 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	request.urlopen(req, data=json.dumps(data).encode('utf-8'))
 
 try:
-	mod_directory = index_path / 'MultipleClick'
+	mod_directory = index_path / clickType
 	version_mod_directory = mod_directory / folderName
 	version_mod_directory.mkdir(parents=True, exist_ok=False)
 	clicks_folder = version_mod_directory / "Clicks"

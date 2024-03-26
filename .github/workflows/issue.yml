@@ -104,6 +104,7 @@ jobs:
           VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
           CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
           FOLDER_NAME: ${{ steps.boo_doop.outputs.folder_name }}
+          CLICK_TYPE: ${{ steps.boo_doop.outputs.type }}
 
       - name: Push to clicks repository
         shell: bash
