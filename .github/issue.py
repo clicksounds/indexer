@@ -84,6 +84,9 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 try:
 	mod_directory = index_path / clickType
 	version_mod_directory = mod_directory / folderName
+	print(folderName)
+	print(mod_directory)
+	print(version_mod_directory)
 	version_mod_directory.mkdir(parents=True, exist_ok=False)
 	clicks_folder = version_mod_directory / "Clicks"
 	releases_folder = version_mod_directory / "Releases"
