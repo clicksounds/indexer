@@ -24,7 +24,7 @@ def save(clickName, folderName, ee):
         with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
             file.write(f'click_name={clickName}\nfolder={folderName}\ntype={ee}\n')
 
-issue_body = os.environ['ISSUE_BODY'] #.replace("\r", "")
+issue_body = os.environ['ISSUE_BODY'].replace("\r", "")
 
 if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
     print('Not a valid entry', file=sys.stderr)
@@ -33,7 +33,7 @@ if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 try:
     match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
     match3 = re.search(r'\s*?### Type of Click Sound\s*?(\S+)\s*?', issue_body)
-    match2 = re.search(r'\s*?### Click Sound Name\s*?(.+)\s*?', issue_body)
+    match2 = re.search(r'\s*?### Click Sound Name\n\n(.+)\s*?', issue_body)
     print(match)
     print(match3)
     print(match2)
