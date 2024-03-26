@@ -123,7 +123,7 @@ jobs:
           ISSUE_AUTHOR_EMAIL: ${{ github.event.issue.user.email }}
       
       - name: Close because invalid
-        if: steps.add_entry.outputs.issue_err != ''
+        if: steps.add_entry.outputs.issue_err != '' || steps.boo_doop.outputs.issue_err != ''
         run: gh issue close ${{ github.event.issue.number }} --comment "$BODY" -R "${{ github.repository }}" --reason "not planned"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
