@@ -54,7 +54,7 @@ jobs:
 
     - name: Download File
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
-      id: boo_doop
+      id: download_file
       shell: bash
       run: |
         set +e
@@ -80,13 +80,13 @@ jobs:
         ISSUE_BODY: ${{ github.event.issue.body }}
 
     - name: Unzip Downloaded File
-      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
+      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept' && steps.download_file.outputs.issue_err == ''
       run: |
-        7z x "./test/${{ steps.boo_doop.outputs.folder_name }}.zip" -o"./test/${{ steps.boo_doop.outputs.folder_name }}"
+        7z x "./test/${{ steps.download_file.outputs.folder_name }}.zip" -o"./test/${{ steps.download_file.outputs.folder_name }}"
 
 
     - name: Add Entry
-      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
+      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept' && steps.download_file.outputs.issue_err == ''
       id: add_entry
       shell: bash
       run: |
@@ -116,9 +116,9 @@ jobs:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
         ACTUALLY_ACCEPTING: YES
-        CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
-        FOLDER_NAME: ${{ steps.boo_doop.outputs.folder }}
-        CLICK_TYPE: ${{ steps.boo_doop.outputs.type }}
+        CLICK_NAME: ${{ steps.download_file.outputs.click_name }}
+        FOLDER_NAME: ${{ steps.download_file.outputs.folder }}
+        CLICK_TYPE: ${{ steps.download_file.outputs.type }}
 
     - name: Push to clicks repository
       shell: bash

@@ -42,7 +42,7 @@ jobs:
 
 
       - name: Download File
-        id: boo_doop
+        id: download_file
         shell: bash
         run: |
           echo has_issues=NO >> $GITHUB_OUTPUT
@@ -79,11 +79,13 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
 
       - name: Unzip Download File
+        if: steps.download_file.outputs.issue_err == ''
         run: |
-          7z x "./test/${{ steps.boo_doop.outputs.folder_name }}.zip" -o"./test/${{ steps.boo_doop.outputs.folder_name }}"
+          7z x "./test/${{ steps.download_file.outputs.folder_name }}.zip" -o"./test/${{ steps.download_file.outputs.folder_name }}"
 
 
       - name: Add Entry
+        if: steps.download_file.outputs.issue_err == ''
         id: add_entry
         shell: bash
         run: |
@@ -128,9 +130,9 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
-          CLICK_NAME: ${{ steps.boo_doop.outputs.click_name }}
-          FOLDER_NAME: ${{ steps.boo_doop.outputs.folder }}
-          CLICK_TYPE: ${{ steps.boo_doop.outputs.type }}
+          CLICK_NAME: ${{ steps.download_file.outputs.click_name }}
+          FOLDER_NAME: ${{ steps.download_file.outputs.folder }}
+          CLICK_TYPE: ${{ steps.download_file.outputs.type }}
 
       - name: Push to clicks repository
         shell: bash
@@ -149,7 +151,7 @@ jobs:
           ISSUE_AUTHOR_EMAIL: ${{ github.event.issue.user.email }}
       
       - name: Close because invalid
-        if: steps.add_entry.outputs.issue_err != '' || steps.boo_doop.outputs.issue_err != ''
+        if: steps.add_entry.outputs.issue_err != '' || steps.download_file.outputs.issue_err != ''
         run: gh issue close ${{ github.event.issue.number }} --comment "$BODY" -R "${{ github.repository }}" --reason "not planned"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
