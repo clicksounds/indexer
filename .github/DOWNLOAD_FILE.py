@@ -31,6 +31,9 @@ try:
     match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
     match3 = re.search(r'\s*?### Type of Click Sound\s*?(\S+)\s*?', issue_body)
     match2 = re.search(r'### Click Sound Name\s\s(.+)', issue_body)
+    print(match)
+    print(match3)
+    print(match2)
     time.sleep(2)
     if match and match2 and match3:
         clickName = match2.group(1)
