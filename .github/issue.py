@@ -40,7 +40,7 @@ except Exception as inst:
 
 
 
-def send_webhook(mod_id):
+def send_webhook():
 	from urllib import request
 	import json
 	import os
@@ -57,7 +57,8 @@ Uploaded by: [{issue_author}](https://github.com/{issue_author})'''
 Uploaded by: [{issue_author}](https://github.com/{issue_author})
 Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
-	title = f'Added `{mod_id}`'
+	# if some
+	title = f'Added New {clickType} Sound, `{clickName}`'
 	description = 'New click added!\n' + description
 
 
@@ -66,9 +67,9 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 			'color': COLOR,
 			'title': title,
 			'description': description,
-			'thumbnail': {
-				'url': f'https://raw.githubusercontent.com/geode-sdk/mods/main/mods-v2/{mod_id}/logo.png'
-			}
+			#'thumbnail': {
+			#	'url': f'https://raw.githubusercontent.com/geode-sdk/mods/main/mods-v2/{mod_id}/logo.png'
+			#}
 		}
 	]
 
@@ -76,7 +77,8 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	req.add_header('User-Agent', 'python urllib')
 	req.add_header('Content-Type', 'application/json')
 	data = {
-		'content': None,
+		#'content': None,
+		'content': "This is a test message so it might change at some point :3",
 		'embeds': embeds,
 	}
 	request.urlopen(req, data=json.dumps(data).encode('utf-8'))
@@ -124,7 +126,7 @@ if potential_issues:
 try:
 	# ignore potential issues if this is triggered by a staff !accept command
 	if (os.getenv('ACTUALLY_ACCEPTING') == 'YES' or not potential_issues) and os.getenv('VERIFY_USER_RESULT') == 'YES':
-		#send_webhook(mod_id)
+		send_webhook()
 		print("hello")
 	else:
 		with open('silly_log.txt', 'a') as file:
