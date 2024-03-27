@@ -44,6 +44,7 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           timeout_minutes: 2
+          shell: bash
           max_attempts: 5
           command: |
             echo has_issues=NO >> $GITHUB_ENV
