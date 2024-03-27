@@ -59,11 +59,11 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
 	# if some
 	if (AlreadyIsHere):
-		title = f'Updated `{clickName}`'
-		description = 'Updated '+clickType+' click sound!\n' + description
+		title = f'Updated `{clickName}` Click Sound'
+		description = 'Updated '+clickType+' Sound '+clickName+'!\n' + description
 	else:
-		title = f'Added `{clickName}`'
-		description = 'New '+clickType+' click sound added!\n' + description
+		title = f'Added `{clickName}` Click Sound'
+		description = 'New '+clickType+' Sound '+clickName+'!\n' + description
 	
 
 	embeds = [
