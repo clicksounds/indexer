@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 index_path = Path(sys.argv[1])
-issue_author = sys.argv[2]
+issue_author = os.getenv('COMMENT_AUTHOR', sys.argv[2])
 
 config = json.load(open(index_path / "indexer-config.json", "r"))
 print("Approved users:")
