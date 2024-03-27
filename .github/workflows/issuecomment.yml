@@ -76,7 +76,7 @@ jobs:
         fi
       env:
         ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
-        COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
+        COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
         ISSUE_BODY: ${{ github.event.issue.body }}
 
     - name: Unzip Downloaded File
@@ -111,7 +111,7 @@ jobs:
 
       env:
         ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
-        COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
+        COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
         ISSUE_BODY: ${{ github.event.issue.body }}
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
