@@ -61,7 +61,7 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	if (AlreadyIsHere):
 		title = f'Updated `{clickName}`'
 		description = 'Updated '+clickType+' click sound!\n' + description
-	else
+	else:
 		title = f'Added `{clickName}`'
 		description = 'New '+clickType+' click sound added!\n' + description
 	
