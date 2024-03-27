@@ -13,13 +13,9 @@ def fail(msg):
     print(f'Fail: {msg}', file=sys.stderr)
     sys.exit(1)
 
-def remove_trailing_error(name):
-    if name.endswith('_'):
-        return name[:-1]
-    return name
 
 def sanitize_name(name):
-    return remove_trailing_error ( ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "") )
+    return   ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "") 
 
 
 def save(clickName, folderName, ee):
