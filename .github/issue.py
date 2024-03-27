@@ -58,7 +58,7 @@ Uploaded by: [{issue_author}](https://github.com/{issue_author})
 Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
 	# if some
-	if (AlreadyIsHere)
+	if (AlreadyIsHere):
 		title = f'Updated `{clickName}`'
 		description = 'Updated '+clickType+' click sound!\n' + description
 	else
