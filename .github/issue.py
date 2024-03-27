@@ -9,7 +9,7 @@ from pathlib import Path
 import subprocess
 import time
 import shutil
-
+AlreadyIsHere = False
 def fail(msg):
 	print(f'Fail: {msg}', file=sys.stderr)
 	sys.exit(1)
@@ -58,9 +58,13 @@ Uploaded by: [{issue_author}](https://github.com/{issue_author})
 Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
 	# if some
-	title = f'Added `{clickName}`'
-	description = 'New '+clickType+' click sound added!\n' + description
-
+	if (AlreadyIsHere)
+		title = f'Updated `{clickName}`'
+		description = 'Updated '+clickType+' click sound!\n' + description
+	else
+		title = f'Added `{clickName}`'
+		description = 'New '+clickType+' click sound added!\n' + description
+	
 
 	embeds = [
 		{
@@ -88,6 +92,9 @@ try:
 	print(folderName)
 	print(mod_directory)
 	print(version_mod_directory)
+	if os.path.exists(dir_path):
+		AlreadyIsHere = True
+	
 	version_mod_directory.mkdir(parents=True, exist_ok=True)
 	clicks_folder = version_mod_directory / "Clicks"
 	releases_folder = version_mod_directory / "Releases"
