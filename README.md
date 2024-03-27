@@ -1,4 +1,4 @@
-# Click Sounds Indexer
+ # Click Sounds Indexer
 This is for you to submit click sounds for the Click Sounds mod!
 
 # Upload Guidelines
