@@ -46,7 +46,6 @@ jobs:
         echo result=`python3 code/.github/verify2.py modsource $COMMENT_AUTHOR` >> $GITHUB_OUTPUT
         echo "Verify Script Result: $RESULT"
         echo result=$RESULT >> $GITHUB_OUTPUT
-        shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
       env:
         COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
 
