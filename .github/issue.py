@@ -88,7 +88,7 @@ try:
 	print(folderName)
 	print(mod_directory)
 	print(version_mod_directory)
-	version_mod_directory.mkdir(parents=True, exist_ok=False)
+	version_mod_directory.mkdir(parents=True, exist_ok=True)
 	clicks_folder = version_mod_directory / "Clicks"
 	releases_folder = version_mod_directory / "Releases"
 	clicks_folder.mkdir(parents=True, exist_ok=True)
