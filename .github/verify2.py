@@ -7,7 +7,7 @@ issue_author = sys.argv[2]
 
 config = json.load(open(index_path / "indexer-config.json", "r"))
 print("Approved users:")
-for user in config:
+for user in config["approve"]:
   print(user)
       
 print("YES" if issue_author in config["approve"] else "NO")
