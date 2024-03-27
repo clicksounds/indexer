@@ -1,5 +1,6 @@
 import sys
 import json
+import os
 from pathlib import Path
 
 index_path = Path(sys.argv[1])
