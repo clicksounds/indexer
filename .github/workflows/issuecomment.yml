@@ -54,26 +54,31 @@ jobs:
 
     - name: Download File
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
-      id: download_file
-      shell: bash
-      run: |
-        set +e
-        python3 code/.github/DOWNLOAD_FILE.py >> result.txt
-        RESULT=$?
-        set -e
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 2
+        max_attempts: 5
+        shell: bash
+        command: |
+          set +e
+          python3 code/.github/DOWNLOAD_FILE.py >> result.txt
+          RESULT=$?
+          set -e
 
-        cat result.txt
+          cat result.txt
 
-        echo "any silly errors?"
-        if [ -f silly_log.txt ]; then
-          cat silly_log.txt
-        fi
+          echo "any silly errors?"
+          if [ -f silly_log.txt ]; then
+            cat silly_log.txt
+          fi
 
-        if [ $RESULT -eq 0 ]; then
-          echo push_entry=YES >> $GITHUB_OUTPUT
-        else
-          echo push_entry=NO >> $GITHUB_OUTPUT
-        fi
+          if [ $RESULT -eq 0 ]; then
+            echo "Download successful, proceeding with next steps."
+            exit 0
+          else
+            echo "Download failed, retrying..."
+            exit 1
+          fi
       env:
         ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
         COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
