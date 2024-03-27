@@ -49,6 +49,7 @@ jobs:
           echo "result=YES" >> $GITHUB_ENV
         else
           echo "result=NO" >> $GITHUB_ENV
+        fi
       env:
         COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
 
