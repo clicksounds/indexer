@@ -59,7 +59,7 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
 	# if some
 	title = f'Added `{clickName}`'
-	description = 'New '+clickType' click sound added!\n' + description
+	description = 'New '+clickType+' click sound added!\n' + description
 
 
 	embeds = [
