@@ -77,8 +77,7 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	req.add_header('User-Agent', 'python urllib')
 	req.add_header('Content-Type', 'application/json')
 	data = {
-		#'content': None,
-		'content': "This is a test message so it might change at some point :3",
+		'content': None,
 		'embeds': embeds,
 	}
 	request.urlopen(req, data=json.dumps(data).encode('utf-8'))
