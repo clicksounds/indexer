@@ -92,7 +92,7 @@ try:
 	print(folderName)
 	print(mod_directory)
 	print(version_mod_directory)
-	if os.path.exists(dir_path):
+	if os.path.exists(version_mod_directory):
 		AlreadyIsHere = True
 	
 	version_mod_directory.mkdir(parents=True, exist_ok=True)
