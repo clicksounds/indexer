@@ -39,45 +39,47 @@ jobs:
       - name: Make Test Directory
         run: mkdir test
 
-
-
       - name: Download File
         id: download_file
-        shell: bash
-        run: |
-          echo has_issues=NO >> $GITHUB_OUTPUT
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 2
+          max_attempts: 5
+          command: |
+            echo has_issues=NO >> $GITHUB_ENV
 
-          set +e
-          python3 code/.github/DOWNLOAD_FILE.py > result.txt 2> err.txt
-          RESULT=$?
-          set -e
+            set +e
+            python3 code/.github/DOWNLOAD_FILE.py > result.txt 2> err.txt
+            RESULT=$?
+            set -e
 
-          echo "output is"
-          cat result.txt
-
-          echo "any silly errors?"
-          if [ -f silly_log.txt ]; then
-            cat silly_log.txt
-          fi
-
-          EOF=$(openssl rand -hex 8)
-
-          {
-            echo "issue_output<<$EOF"
+            echo "output is"
             cat result.txt
-            echo "$EOF"
-          } >> "$GITHUB_OUTPUT"
-            
-          {
-            echo "issue_err<<$EOF"
-            cat err.txt
-            echo "$EOF"
-          } >> "$GITHUB_OUTPUT"
+
+            echo "any silly errors?"
+            if [ -f silly_log.txt ]; then
+              cat silly_log.txt
+            fi
+
+            EOF=$(openssl rand -hex 8)
+
+            {
+              echo "issue_output<<$EOF"
+              cat result.txt
+              echo "$EOF"
+            } >> "$GITHUB_ENV"
+              
+            {
+              echo "issue_err<<$EOF"
+              cat err.txt
+              echo "$EOF"
+            } >> "$GITHUB_ENV"
+            exit $RESULT
         env:
           ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
           COMMENT_AUTHOR: ${{ github.event.issue.user.login }}
           ISSUE_BODY: ${{ github.event.issue.body }}
-
+  
       - name: Unzip Download File
         if: steps.download_file.outputs.issue_err == ''
         run: |
