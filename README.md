@@ -2,7 +2,8 @@
 This is for you to submit click sounds for the Click Sounds mod!
 
 # Upload Guidelines
-* No dupe click sounds effects
-* Not alot of Background noise from the sound effect
-* No clicks being too long ([More Info](/Guidelines/ClickLength.md))
-* No discriminatory click sounds effects ([More Info](/Guidelines/Discriminatory.md))
+## Your sound:
+* Must not be a sound that already exists
+* Must have minimal background noise
+* Must not be too long ([More Info](/Guidelines/ClickLength.md))
+* Must not be discriminatory ([More Info](/Guidelines/Discriminatory.md))
