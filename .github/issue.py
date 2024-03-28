@@ -32,7 +32,7 @@ try:
 	archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
 
 	file_list = archive.namelist()
-	print(file_list)
+	#print(file_list)
 
 except Exception as inst:
 	fail(f'Not a valid geode file: {inst}')
@@ -89,9 +89,9 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 try:
 	mod_directory = index_path / clickType
 	version_mod_directory = mod_directory / folderName
-	print(folderName)
-	print(mod_directory)
-	print(version_mod_directory)
+	#print(folderName)
+	#print(mod_directory)
+	#print(version_mod_directory)
 	if os.path.exists(version_mod_directory):
 		AlreadyIsHere = True
 	
@@ -108,9 +108,9 @@ try:
 			listdir = x.split("/")
 			listdir.pop(len(listdir) - 1)
 			if "Clicks" in listdir or "clicks" in listdir or "click" in listdir or "Click" in listdir:
-				print(x)
-				print(os.path.join(os.path.join("test/", folderName), x))
-				print(os.path.join(clicks_folder, filename))
+				#print(x)
+				#print(os.path.join(os.path.join("test/", folderName), x))
+				#print(os.path.join(clicks_folder, filename))
 				shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(clicks_folder, filename))
 			if "Releases" in listdir or "releases" in listdir or "release" in listdir or "Release" in listdir:
 				shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(releases_folder, filename))
