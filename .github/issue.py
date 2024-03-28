@@ -102,7 +102,7 @@ try:
 	releases_folder.mkdir(parents=True, exist_ok=True)
 
 	for x in file_list:
-		if x != "Clicks/" and x != "clicks/" and x != "Releases/" and x != "releases/" and x != "Release/" and x != "release/":
+		if not x.endswith("Clicks/") and not x.endswith("clicks/") and not x.endswith("Releases/") and not x.endswith("releases/") and not x.endswith("Release/") and not x.endswith("release/"):
 			filename = x.split("/")
 			filename = filename[len(filename) - 1]
 			listdir = x.split("/")
@@ -133,7 +133,6 @@ try:
 	# ignore potential issues if this is triggered by a staff !accept command
 	if (os.getenv('ACTUALLY_ACCEPTING') == 'YES' or not potential_issues) and os.getenv('VERIFY_USER_RESULT') == 'YES':
 		send_webhook()
-		print("hello")
 	else:
 		with open('silly_log.txt', 'a') as file:
 			file.write("not sending webhook :P\n")
