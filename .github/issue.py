@@ -117,7 +117,7 @@ try:
 		if x.endswith("pack.json"):
 			filename = x.split("/")
 			filename = filename[len(filename) - 1]
-			shutil.copy(os.path.join("test/", x), os.path.join(version_mod_directory, filename))
+			shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(version_mod_directory, filename))
 
 except Exception as inst:
 	fail(f'Could not populate click folder {version_mod_directory}: {inst}')
