@@ -122,9 +122,7 @@ jobs:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
         ACTUALLY_ACCEPTING: YES
-        CLICK_NAME: ${{ steps.download_file.outputs.click_name }}
         FOLDER_NAME: ${{ steps.download_file.outputs.folder }}
-        CLICK_TYPE: ${{ steps.download_file.outputs.type }}
 
     - name: Push to clicks repository
       shell: bash

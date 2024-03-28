@@ -34,18 +34,22 @@ if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 
 try:
     match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
-    #print(match)
+    match3 = re.search(r'\s*?### Type of Click Sound\s*?(\S+)\s*?', issue_body)
+    match2 = re.search(r'\s*?### Click Sound Name\n\n(.+)\s*?', issue_body)
+    print(match)
+    print(match3)
+    print(match2)
     time.sleep(2)
-    if match:
-        click_url = matchfound[(matchfound.find("(") + 1):-1]
-        urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
+    if match and match2 and match3:
         clickName = match2.group(1)
         folderName = sanitize_name(clickName)
         matchfound = match.group(1)
+        click_url = matchfound[(matchfound.find("(") + 1):-1]
         typee = match3.group(1)
         if typee != "Useful" and typee != "Meme":
             fail('Click Type must be \"Useful\" or \"Release\"')
         save(clickName, folderName, typee)
+        urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
     else:
         fail(f'Could not find the zip link')
 

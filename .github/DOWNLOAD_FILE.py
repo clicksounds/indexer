@@ -14,17 +14,11 @@ def fail(msg):
     sys.exit(1)
 
 
-def sanitize_name(name):
-    return   ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "") 
-
-
-def save(clickName, folderName, ee):
-    print(clickName)
+def save(folderName):
     print(folderName)
-    print(ee)
     if os.getenv('GITHUB_OUTPUT'):
         with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
-            file.write(f'click_name={clickName}\nfolder={folderName}\ntype={ee}\n')
+            file.write(f'folder={folderName}\n')
 
 issue_body = os.environ['ISSUE_BODY'].replace("\r", "")
 
@@ -34,22 +28,13 @@ if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 
 try:
     match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
-    match3 = re.search(r'\s*?### Type of Click Sound\s*?(\S+)\s*?', issue_body)
-    match2 = re.search(r'\s*?### Click Sound Name\n\n(.+)\s*?', issue_body)
-    print(match)
-    print(match3)
-    print(match2)
+    #print(match)
     time.sleep(2)
-    if match and match2 and match3:
-        clickName = match2.group(1)
-        folderName = sanitize_name(clickName)
+    if match:
+        urllib.request.urlretrieve(click_url, 'test/' + 'yessir' + '.zip')
+        folderName = "yessir"
         matchfound = match.group(1)
-        click_url = matchfound[(matchfound.find("(") + 1):-1]
-        typee = match3.group(1)
-        if typee != "Useful" and typee != "Meme":
-            fail('Click Type must be \"Useful\" or \"Release\"')
-        save(clickName, folderName, typee)
-        urllib.request.urlretrieve(click_url, 'test/' + folderName + '.zip')
+        save(folderName)
     else:
         fail(f'Could not find the zip link')
 

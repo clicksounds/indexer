@@ -17,6 +17,8 @@ def fail(msg):
 
 index_path = Path(sys.argv[1])
 issue_author = sys.argv[2]
+clickName = os.environ['CLICK_NAME']
+clickType = os.environ['CLICK_TYPE']
 folderName = os.environ['FOLDER_NAME']
 if len(sys.argv) == 3:
 	issue_body = os.environ['ISSUE_BODY']
@@ -25,24 +27,15 @@ else:
 	# but its still here for testing
 	issue_body = sys.argv[3]
 
-def sanitize_name(name):
-    return   ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "").replace("Click","").replace("clicks", "").replace("click","").replace("Pack", "").replace("pack","").replace("packs", "").replace("Packs","").replace("Releases", "").replace("Release","").replace("releases", "").replace("release","") 
 
 try:
 	archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
+
 	file_list = archive.namelist()
-	packjson = {}
-	for x in file_list:
-		if x.endswith("pack.json"):
-			packjson = json.loads(archive.open(x))
 	#print(file_list)
-	clickName = packjson["name"]
-	id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-]+)$', packjson["id"])
-	modid = id2.group(1)
-    
 
 except Exception as inst:
-	fail(f'Not a valid pack file: {inst}')
+	fail(f'Not a valid geode file: {inst}')
 
 
 
@@ -95,16 +88,16 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
 try:
 	mod_directory = index_path / clickType
-	version_click_directory = mod_directory / modid
+	version_mod_directory = mod_directory / folderName
 	#print(folderName)
 	#print(mod_directory)
 	#print(version_mod_directory)
 	if os.path.exists(version_mod_directory):
 		AlreadyIsHere = True
 	
-	version_click_directory.mkdir(parents=True, exist_ok=True)
-	clicks_folder = version_click_directory / "Clicks"
-	releases_folder = version_click_directory / "Releases"
+	version_mod_directory.mkdir(parents=True, exist_ok=True)
+	clicks_folder = version_mod_directory / "Clicks"
+	releases_folder = version_mod_directory / "Releases"
 	clicks_folder.mkdir(parents=True, exist_ok=True)
 	releases_folder.mkdir(parents=True, exist_ok=True)
 
@@ -127,7 +120,7 @@ try:
 			shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(version_mod_directory, filename))
 
 except Exception as inst:
-	fail(f'Could not populate pack folder {version_mod_directory}: {inst}')
+	fail(f'Could not populate click folder {version_mod_directory}: {inst}')
 
 potential_issues = []
 if potential_issues:
