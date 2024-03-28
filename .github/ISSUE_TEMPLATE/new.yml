@@ -4,30 +4,12 @@ labels: []
 body: 
   - type: markdown
     attributes:
-      value: "## Click Sounds Request"
-  - type: input
-    id: name
-    attributes:
-      label: Click Sound Name
-      description: put your click sound name here
-      placeholder: Click Sound Name
-    validations:
-      required: true
-  - type: dropdown
-    id: type
-    attributes:
-      label: Type of Click Sound
-      description: Choose what type your Click Sound is. is it useful or is it a meme sound?
-      options:
-        - Useful
-        - Meme
-    validations:
-      required: true
+      value: "# Click Sounds Request"
   - type: textarea
     id: zip
     attributes:
       label: Add Pack
-      description: Add your click sound files here in a **COMPRESSED *ZIP* FILE**, NOTHING ELSE
+      description: Add your click sound files here in a **COMPRESSED *ZIP* FILE**, NOTHING ELSE (ZIP FILE MUST INCLUDE A pack.json FILE)
       placeholder: Input files here
     validations:
       required: true
