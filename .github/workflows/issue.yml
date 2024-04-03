@@ -83,6 +83,7 @@ jobs:
           ISSUE_BODY: ${{ github.event.issue.body }}
   
       - name: Unzip Download File
+        continue-on-error: true
         if: steps.download_file.outputs.issue_err == ''
         run: |
           7z x "./test/yessir.zip" -o"./test/yessir"
