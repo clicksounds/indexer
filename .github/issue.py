@@ -17,7 +17,7 @@ def fail(msg):
 
 index_path = Path(sys.argv[1])
 issue_author = sys.argv[2]
-folderName = os.environ['FOLDER_NAME']
+folderName = "yessir"
 if len(sys.argv) == 3:
 	issue_body = os.environ['ISSUE_BODY']
 else:
