@@ -53,6 +53,7 @@ jobs:
 
 
     - name: Download File
+      continue-on-error: true
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
       id: download_file
       uses: nick-fields/retry@v3
@@ -86,9 +87,10 @@ jobs:
         ISSUE_BODY: ${{ github.event.issue.body }}
 
     - name: Unzip Downloaded File
+      continue-on-error: true
       if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept' && steps.download_file.outputs.issue_err == ''
       run: |
-        7z x "./test/${{ steps.download_file.outputs.folder }}.zip" -o"./test/${{ steps.download_file.outputs.folder }}"
+        7z x "./test/yessir.zip" -o"./test/yessir"
 
 
     - name: Add Entry
