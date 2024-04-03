@@ -28,12 +28,13 @@ if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
 
 try:
     match = re.search(r'\s*?### Add Pack\s*?(\S+)\s*?', issue_body)
-    #print(match)
+    print(match)
     time.sleep(2)
     if match:
         urllib.request.urlretrieve(click_url, 'test/' + 'yessir' + '.zip')
         folderName = "yessir"
         matchfound = match.group(1)
+        print(matchfound)
         save(folderName)
     else:
         fail(f'Could not find the zip link')
