@@ -32,9 +32,10 @@ try:
     print(match)
     time.sleep(2)
     if match:
+        matchfound = match.group(1)
+        click_url = matchfound[(matchfound.find("(") + 1):-1]
         urllib.request.urlretrieve(click_url, 'test/' + 'yessir' + '.zip')
         folderName = "yessir"
-        matchfound = match.group(1)
         print(matchfound)
         save(folderName)
     else:
