@@ -85,7 +85,7 @@ jobs:
       - name: Unzip Download File
         if: steps.download_file.outputs.issue_err == ''
         run: |
-          7z x "./test/${{ steps.download_file.outputs.folder }}.zip" -o"./test/${{ steps.download_file.outputs.folder }}"
+          7z x "./test/yessir.zip" -o"./test/yessir"
 
 
       - name: Add Entry
