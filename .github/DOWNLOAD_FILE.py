@@ -10,6 +10,7 @@ import subprocess
 import time
 
 def fail(msg):
+    print(f'Fail: {msg}')
     print(f'Fail: {msg}', file=sys.stderr)
     sys.exit(1)
 
@@ -22,7 +23,7 @@ def save(folderName):
 
 issue_body = os.environ['ISSUE_BODY'].replace("\r", "")
 
-if 'Click Sound Name' not in issue_body or "Add Pack" not in issue_body:
+if "Add Pack" not in issue_body:
     print('Not a valid entry', file=sys.stderr)
     sys.exit(2)
 
