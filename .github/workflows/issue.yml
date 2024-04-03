@@ -40,6 +40,7 @@ jobs:
         run: mkdir test
 
       - name: Download File
+        continue-on-error: true
         id: download_file
         uses: nick-fields/retry@v3
         with:
