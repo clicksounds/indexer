@@ -34,8 +34,8 @@ try:
 	packjson = {}
 	for x in file_list:
 		if x.endswith("pack.json"):
-			print(archive.open(x))
-			packjson = json.loads(archive.open(x))
+			print(archive.open(x, 'r').read().decode('utf-8'))
+			packjson = json.loads(archive.open(x, 'r').read().decode('utf-8'))
 	print(file_list)
 	clickName = packjson["name"]
 	id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-]+)$', packjson["id"])
