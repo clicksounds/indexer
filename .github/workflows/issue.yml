@@ -105,8 +105,8 @@ jobs:
           cat result.txt
 
           echo "any silly errors?"
-          if [ -f silly_log.txt ]; then
-            cat silly_log.txt
+          if [ -f err.txt ]; then
+            cat err.txt
           fi
 
           EOF=$(openssl rand -hex 8)
