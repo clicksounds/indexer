@@ -34,8 +34,9 @@ try:
 	packjson = {}
 	for x in file_list:
 		if x.endswith("pack.json"):
+			print(archive.open(x))
 			packjson = json.loads(archive.open(x))
-	#print(file_list)
+	print(file_list)
 	clickName = packjson["name"]
 	id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-]+)$', packjson["id"])
 	modid = id2.group(1)
