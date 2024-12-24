@@ -38,6 +38,18 @@ try:
 			packjson = json.loads(archive.open(x, 'r').read().decode('utf-8'))
 	print(file_list)
 	clickName = packjson["name"]
+	clickType = packjson.get("type", "Missing Key")
+
+	if clickType.title() == "Meme":
+		clickType = "Meme"
+	elif clickType.title() == "Useful": 
+		clickType = "Useful"
+	else:
+		if clickType == "Missing Key":
+			raise Exception("Type Key is missing or invalid")
+		else:
+			raise Exception('Click type: "'+str(clickType)+'" Is not a valid click type, Meme or Useful are the only valid types')
+	
 	id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-]+)$', packjson["id"])
 	modid = id2.group(1)
     
@@ -95,12 +107,15 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	request.urlopen(req, data=json.dumps(data).encode('utf-8'))
 
 try:
+	if clickType != "Meme" and clickType != "Useful":
+		version_click_directory =  modid
+		raise Exception(f"Click is not a valid Clicktype (Meme || Useful are valid clicktypes)")
 	mod_directory = index_path / clickType
 	version_click_directory = mod_directory / modid
 	#print(folderName)
 	#print(mod_directory)
 	#print(version_mod_directory)
-	if os.path.exists(version_mod_directory):
+	if os.path.exists(version_click_directory):
 		AlreadyIsHere = True
 	
 	version_click_directory.mkdir(parents=True, exist_ok=True)
@@ -125,10 +140,10 @@ try:
 		if x.endswith("pack.json"):
 			filename = x.split("/")
 			filename = filename[len(filename) - 1]
-			shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(version_mod_directory, filename))
+			shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(version_click_directory, filename))
 
 except Exception as inst:
-	fail(f'Could not populate pack folder {version_mod_directory}: {inst}')
+	fail(f'Could not populate pack folder {version_click_directory}: {inst}')
 
 potential_issues = []
 if potential_issues:
