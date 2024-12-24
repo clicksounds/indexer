@@ -3,4 +3,4 @@
 
 # An Example
 ## Not Allowed
-* a sound that has the word "Fuck"
+* a sound that has the words "Fuck YOU!"
