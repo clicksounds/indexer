@@ -1,7 +1,7 @@
 # No discriminatory click sounds effects
 * this is about keeping sounds to not be discriminatory in any way
-# an example
 
+# An Example
 ## Allowed
 * a sound that just screams the word like "Gay!"
 ## Not Allowed
