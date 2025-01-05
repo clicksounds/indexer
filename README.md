@@ -8,3 +8,4 @@ This is for you to submit click sounds for the Click Sounds mod!
 * Must not be too long ([More Info](/Guidelines/ClickLength.md))
 * Must not be discriminatory ([More Info](/Guidelines/Discriminatory.md))
 * Keep the sounds family friendly ([More Info](/Guidelines/familyfriendly.md))
+* Must comply with Geode Mod Guidelines
