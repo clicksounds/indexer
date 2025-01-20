@@ -140,7 +140,7 @@ jobs:
     
     - name: Close Issue
       uses: peter-evans/close-issue@v3
-      if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && github.event.comment.body == '!accept'
+      if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && contains(github.event.comment.body, '!accept')
       with:
         issue-number: ${{ github.event.issue.number }}
         comment: Successfully added your click sound!!      
