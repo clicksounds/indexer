@@ -47,14 +47,14 @@ jobs:
         COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
         
     - name: Make Test Directory
-      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
+      if: steps.verify_user.outputs.result == 'YES' && contains(github.event.comment.body, '!accept')
       run: mkdir test
 
 
 
     - name: Download File
       continue-on-error: true
-      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept'
+      if: steps.verify_user.outputs.result == 'YES' && contains(github.event.comment.body, '!accept')
       id: download_file
       uses: nick-fields/retry@v3
       with:
@@ -88,13 +88,13 @@ jobs:
 
     - name: Unzip Downloaded File
       continue-on-error: true
-      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept' && steps.download_file.outputs.issue_err == ''
+      if: steps.verify_user.outputs.result == 'YES' && contains(github.event.comment.body, '!accept') && steps.download_file.outputs.issue_err == ''
       run: |
         7z x "./test/yessir.zip" -o"./test/yessir"
 
 
     - name: Add Entry
-      if: steps.verify_user.outputs.result == 'YES' && github.event.comment.body == '!accept' && steps.download_file.outputs.issue_err == ''
+      if: steps.verify_user.outputs.result == 'YES' && contains(github.event.comment.body, '!accept') && steps.download_file.outputs.issue_err == ''
       id: add_entry
       shell: bash
       run: |
@@ -127,7 +127,7 @@ jobs:
 
     - name: Push to clicks repository
       shell: bash
-      if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && github.event.comment.body == '!accept'
+      if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && contains(github.event.comment.body, '!accept')
       working-directory: ${{ github.workspace }}/clicks
       run: |
         git config --global user.name "$ISSUE_AUTHOR" || git config --global user.name "Click Sounds Adder"
