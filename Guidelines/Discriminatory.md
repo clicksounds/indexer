@@ -1,8 +1,14 @@
-# No discriminatory click sounds effects
-* this is about keeping sounds to not be discriminatory in any way
+# No Discriminatory Click Sound Effects  
 
-# An Example
-## Allowed
-* a sound that just screams the word like "Gay!"
-## Not Allowed
-* a sound that puts the word "gay" in a negative connotation like "You suck, Gays!"
+* Sounds must **not be discriminatory in any way**.  
+* Avoid any audio that could be interpreted as **offensive, harmful, or exclusionary** toward any group.  
+
+## Examples  
+
+### ✅ Allowed  
+* A sound that simply says: **"Gay!"** in a neutral or positive tone.  
+* Non-verbal sound effects like **mouse clicks, screen taps, or keyboard presses** that have no discriminatory intent.  
+
+### ❌ Not Allowed  
+* A sound that conveys **negativity, mockery, or insult** toward any group or identity, regardless of the word used.
+* Any sound designed to **mock, insult, or target** a specific group of people.  
