@@ -1,8 +1,16 @@
-# No discriminatory click sounds effects
-* Kids use this mod so make sure sounds don't contain words that their mothers wouldn't want them to hear.
-* Also this is against Geode Mod Guidelines
+# No Discriminatory or Inappropriate Sound Effects
+* This mod is used by kids, so ensure that all sounds remain appropriate for a general audience.
+* Avoid sounds containing words or phrases that parents wouldn't want their children to hear.
+* Additionally, sounds must not be too loud to avoid damaging fragile hearing.
+* This rule aligns with the **Geode Mod Guidelines** and must be followed.
 
-# An Example
-* a sound that has the words "Hello!"
-## Not Allowed
-* a sound that has the words "Fuck YOU!"
+# Examples
+
+## ✅ Allowed
+* A sound that includes the words: **"loooooow taper fade"**
+* A sound that is bass boosted yet not too loud.
+
+## ❌ Not Allowed
+* A sound that includes the words: **"Fuck!"**
+* A sound that is bass boosted and is very loud.
+* Any other offensive, vulgar, or discriminatory language.
