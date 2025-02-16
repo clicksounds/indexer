@@ -29,35 +29,42 @@ def sanitize_name(name):
     return   ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "").replace("Click","").replace("clicks", "").replace("click","").replace("Pack", "").replace("pack","").replace("packs", "").replace("Packs","").replace("Releases", "").replace("Release","").replace("releases", "").replace("release","") 
 
 try:
-	archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
+	archive = None
+	# adding more readable errors lol
+	try:
+		archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
+	except Exception as inst:
+		raise Exception("Unable to unzip, It may be the filename of zip presented")
+	
 	file_list = archive.namelist()
 	packjson = {}
 	for x in file_list:
 		if x.endswith("pack.json"):
-			print(archive.open(x, 'r').read().decode('utf-8'))
+			#print(archive.open(x, 'r').read().decode('utf-8'))
 			packjson = json.loads(archive.open(x, 'r').read().decode('utf-8'))
-	print(file_list)
-	clickName = packjson["name"]
-	clickType = packjson.get("type", "Missing Key")
+			#print(file_list)
+			clickName = packjson["name"]
+			clickType = packjson.get("type", "Missing Key")
 
-	if clickType.title() == "Meme":
-		clickType = "Meme"
-	elif clickType.title() == "Useful": 
-		clickType = "Useful"
-	else:
-		if clickType == "Missing Key":
-			raise Exception("Type Key is missing or invalid")
-		else:
-			raise Exception('Click type: "'+str(clickType)+'" Is not a valid click type, Meme or Useful are the only valid types')
-	
-	id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-]+)$', packjson["id"])
-	modid = id2.group(1)
-    
+			if clickType.title() == "Meme":
+				clickType = "Meme"
+			elif clickType.title() == "Useful": 
+				clickType = "Useful"
+			else:
+				if clickType == "Missing Key":
+					raise Exception("Type Key is missing or invalid")
+				else:
+					raise Exception('Click type: "'+str(clickType)+'" Is not a valid click type, Meme or Useful are the only valid types')
+			
+			id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-]+)$', packjson["id"])
+			try:
+				modid = id2.group(1)
+			except Exception as inst:
+				raise Exception("CLICK ID presented is not valid, You may have used a invalid char")
+			break
 
 except Exception as inst:
 	fail(f'Not a valid pack file: {inst}')
-
-
 
 
 def send_webhook():
@@ -106,6 +113,8 @@ Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 	}
 	request.urlopen(req, data=json.dumps(data).encode('utf-8'))
 
+MaxFileCountClicks = 0
+MaxFileCountReleases = 0
 try:
 	if clickType != "Meme" and clickType != "Useful":
 		version_click_directory =  modid
@@ -135,7 +144,9 @@ try:
 				#print(os.path.join(os.path.join("test/", folderName), x))
 				#print(os.path.join(clicks_folder, filename))
 				shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(clicks_folder, filename))
+				MaxFileCountClicks+=1
 			if "Releases" in listdir or "releases" in listdir or "release" in listdir or "Release" in listdir:
+				MaxFileCountReleases+=1
 				shutil.copy(os.path.join(os.path.join("test/", folderName), x), os.path.join(releases_folder, filename))
 		if x.endswith("pack.json"):
 			filename = x.split("/")
@@ -144,6 +155,7 @@ try:
 
 except Exception as inst:
 	fail(f'Could not populate pack folder {version_click_directory}: {inst}')
+
 
 potential_issues = []
 if potential_issues:
@@ -154,6 +166,34 @@ if potential_issues:
 		with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
 			file.write('has_issues=YES\n')
 
+try:
+	# gen message lol
+	if packjson and modid:
+		msg = ""
+		development = ""
+
+		if (MaxFileCountClicks > 0):
+			msg = f"There are {MaxFileCountClicks} amount of clicks"
+
+		if (MaxFileCountReleases > 0):
+			msg = msg != "" & msg+f" and {MaxFileCountReleases} releases" or f"There are {MaxFileCountReleases} amount of releases"
+
+		development = "by "
+		for x in packjson["authors"]:
+			if development != "by ":
+				development = development+", "+x.get("name","Unknown")
+			else:
+				development = development+x.get("name","Unknown")
+		
+		if development == "by ":
+			development = "by unknown"
+		
+		if (msg != ""):
+			print(f'{packjson["name"]}({modid}) {development} is Waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}')
+		else:
+			print(f"{packjson["name"]}({modid}) {development} doesn't seems to have any click files?")
+finally:
+	a = "" # ok why did python hate me
 
 # mod only gets auto accepted when there are no issues
 try:
