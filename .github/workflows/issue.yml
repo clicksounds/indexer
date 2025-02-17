@@ -173,5 +173,4 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Waiting for an index moderator to comment "!accept" to accept the click pack submission.
             ${{ steps.add_entry.outputs.issue_output }}
