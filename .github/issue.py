@@ -176,7 +176,10 @@ try:
 			msg = f"There are {MaxFileCountClicks} amount of clicks"
 
 		if (MaxFileCountReleases > 0):
-			msg = msg != "" & msg+f" and {MaxFileCountReleases} releases" or f"There are {MaxFileCountReleases} amount of releases"
+			if msg != "":
+				msg = msg + f" and {MaxFileCountReleases} releases" 
+			else:
+				msg = f"There are {MaxFileCountReleases} amount of releases"
 
 		development = "by "
 		for x in packjson["authors"]:
