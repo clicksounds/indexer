@@ -56,7 +56,7 @@ try:
 				else:
 					raise Exception('Click type: "'+str(clickType)+'" Is not a valid click type, Meme or Useful are the only valid types')
 			
-			id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-]+)$', packjson["id"])
+			id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-_]+)$', packjson["id"])
 			try:
 				modid = id2.group(1)
 			except Exception as inst:
