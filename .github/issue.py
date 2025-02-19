@@ -34,7 +34,7 @@ try:
 	try:
 		archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
 	except Exception as inst:
-		raise Exception("Unable to unzip, It may be the filename of zip presented")
+		raise Exception("Unable to unzip, It may be the filename of zip presented. Make sure the packgen.zip file was not renamed.")
 	
 	file_list = archive.namelist()
 	packjson = {}
