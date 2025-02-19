@@ -173,13 +173,13 @@ try:
 		development = ""
 
 		if (MaxFileCountClicks > 0):
-			msg = f"There are {MaxFileCountClicks} amount of clicks"
+			msg = f"There are {MaxFileCountClicks} clicks"
 
 		if (MaxFileCountReleases > 0):
 			if msg != "":
 				msg = msg + f" and {MaxFileCountReleases} releases" 
 			else:
-				msg = f"There are {MaxFileCountReleases} amount of releases"
+				msg = f"There are {MaxFileCountReleases} releases"
 
 		development = "by "
 		for x in packjson["authors"]:
@@ -192,9 +192,9 @@ try:
 			development = "by unknown"
 		
 		if (msg != ""):
-			print(f'{packjson["name"]}({modid}) {development} is Waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}')
+			print(f'{packjson["name"]}({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}')
 		else:
-			print(f"{packjson["name"]}({modid}) {development} doesn't seems to have any click files?")
+			print(f"{packjson["name"]}({modid}) {development} doesn't seem to have any click files?")
 finally:
 	a = "" # ok why did python hate me
 
