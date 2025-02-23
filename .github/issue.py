@@ -171,7 +171,7 @@ try:
 	if packjson and modid:
 		msg = ""
 		development = ""
-		packgenStatus = "was"
+		packgenStatus = "Packgen was used."
 
 		if (MaxFileCountClicks > 0):
 			msg = f"There are {MaxFileCountClicks} clicks"
@@ -193,10 +193,10 @@ try:
 			development = "by unknown"
 
 		if not packjson.get("packgen", False):
-			packgenStatus = "wasn't"
+			packgenStatus = "Packgen was not used."
 		
 		if (msg != ""):
-			print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}.\nPackgen {packgenStatus} used to make it.')
+			print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}. {packgenStatus})
 		else:
 			print(f"{packjson["name"]} ({modid}) {development} doesn't seem to have any click files?")
 finally:
