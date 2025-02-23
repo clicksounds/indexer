@@ -192,9 +192,9 @@ try:
 			development = "by unknown"
 		
 		if (msg != ""):
-			print(f'{packjson["name"]}({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}')
+			print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}')
 		else:
-			print(f"{packjson["name"]}({modid}) {development} doesn't seem to have any click files?")
+			print(f"{packjson["name"]} ({modid}) {development} doesn't seem to have any click files?")
 finally:
 	a = "" # ok why did python hate me
 
