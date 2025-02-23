@@ -192,7 +192,7 @@ try:
 		if development == "by ":
 			development = "by unknown"
 
-		if (packjson["packgen"] == False):
+		if not packjson.get("packgen", False):
 			packgenStatus = "wasn't"
 		
 		if (msg != ""):
