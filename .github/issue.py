@@ -192,7 +192,7 @@ try:
 		if development == "by ":
 			development = "by unknown"
 
-		if (packjson["packgen") == false):
+		if (packjson["packgen"] == false):
 			packgenStatus = "wasn't"
 		
 		if (msg != ""):
