@@ -196,7 +196,7 @@ try:
 			packgenStatus = "Packgen was not used."
 		
 		if (msg != ""):
-			print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}. {packgenStatus})
+			print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}. {packgenStatus}')
 		else:
 			print(f"{packjson["name"]} ({modid}) {development} doesn't seem to have any click files?")
 finally:
