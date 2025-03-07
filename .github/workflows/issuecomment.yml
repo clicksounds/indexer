@@ -143,24 +143,4 @@ jobs:
       if: steps.verify_user.outputs.result == 'YES' && steps.add_entry.outputs.push_entry == 'YES' && contains(github.event.comment.body, '!accept')
       with:
         issue-number: ${{ github.event.issue.number }}
-        comment: Successfully added your click sound!!      
-  
-  decline_issue:
-    name: Decline Issue
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Verify User
-      id: verify_user
-      shell: bash
-      run: |
-        echo result=`python3 code/.github/verify2.py modsource $COMMENT_AUTHOR` >> $GITHUB_OUTPUT
-      env:
-        COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
-
-    - name: Close Issue as Not Planned
-      uses: peter-evans/close-issue@v3
-      if: steps.verify_user.outputs.result == 'YES' && contains(github.event.comment.body, '!decline')
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        comment: Pack declined by an index moderator.
+        comment: Successfully added your click sound!
