@@ -13,3 +13,11 @@ body:
       placeholder: Input files here
     validations:
       required: true
+  - type: textarea
+    id: issuedesc
+    attributes:
+      label: Any comments for the moderators?
+      description: Optional
+      placeholder: Type a message for the Index Moderators here (optional)
+    validations:
+      required: false
