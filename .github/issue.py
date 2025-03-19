@@ -171,7 +171,8 @@ try:
 	if packjson and modid:
 		msg = ""
 		development = ""
-		packgenStatus = "Packgen was used. "
+		packgenStatus = ""
+		packconStatus = ""
 
 		if (MaxFileCountClicks > 0):
 			msg = f"There are {MaxFileCountClicks} clicks"
@@ -192,14 +193,19 @@ try:
 		if development == "by ":
 			development = "by unknown"
 
-		if not packjson.get("packgen", False):
+		if packjson.get("packgen", False):
+			packgenStatus = "Packgen was used. "
+		else:
 			packgenStatus = "Packgen was not used. "
+
+		if packjson.get("packcon", False):
+			packconStatus = "Packcon was used to convert this pack from ZCB format to CS format. "
 
 		packType = f'Pack type is {packjson.get("type", "Unknown").capitalize()}.'
 		
 		if (msg != ""):
 			packDesc = f'\nPack description: {packjson["description"]}' if "description" in packjson else ""
-			print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}. {packgenStatus}{packType}{packDesc}')
+			print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to comment "!accept" to accept the click pack submission.\n{msg}. {packgenStatus}{packconStatus}{packType}{packDesc}')
 		else:
 			print(f"{packjson["name"]} ({modid}) {development} doesn't seem to have any click files?")
 finally:
