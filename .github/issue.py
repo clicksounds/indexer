@@ -34,26 +34,22 @@ def download_zip_from_issue(issue_body, out_path):
         return False
     url = urls[0]
     try:
-        print(f"Downloading zip from {url}...")
         urllib.request.urlretrieve(url, out_path)
-        print("Download complete.")
         return True
     except Exception as e:
-        print(f"Failed to download from {url}: {e}")
         return False
 
 try:
     archive = None
     try:
         archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
-        archive.extractall(f'test/{folderName}')  # FIXED: extract so files exist on disk
+        archive.extractall(f'test/{folderName}') 
     except Exception as inst:
-        print("Initial unzip failed, trying to find .zip in issue body...")
         zip_path = f'test/{folderName}.zip'
         if download_zip_from_issue(issue_body, zip_path):
             try:
                 archive = zipfile.ZipFile(zip_path, 'r')
-                archive.extractall(f'test/{folderName}')  # FIXED: extract after download
+                archive.extractall(f'test/{folderName}')
             except Exception as inst2:
                 raise Exception("Unable to unzip even after downloading from issue body, the file may be corrupt or invalid.")
         else:
