@@ -46,12 +46,14 @@ try:
     archive = None
     try:
         archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
+        archive.extractall(f'test/{folderName}')  # FIXED: extract so files exist on disk
     except Exception as inst:
         print("Initial unzip failed, trying to find .zip in issue body...")
         zip_path = f'test/{folderName}.zip'
         if download_zip_from_issue(issue_body, zip_path):
             try:
                 archive = zipfile.ZipFile(zip_path, 'r')
+                archive.extractall(f'test/{folderName}')  # FIXED: extract after download
             except Exception as inst2:
                 raise Exception("Unable to unzip even after downloading from issue body, the file may be corrupt or invalid.")
         else:
