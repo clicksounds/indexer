@@ -28,13 +28,34 @@ else:
 def sanitize_name(name):
     return   ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "").replace("Click","").replace("clicks", "").replace("click","").replace("Pack", "").replace("pack","").replace("packs", "").replace("Packs","").replace("Releases", "").replace("Release","").replace("releases", "").replace("release","") 
 
+def download_zip_from_issue(issue_body, out_path):
+    urls = re.findall(r'(https://github\.com/user-attachments/files/[^\s]+\.zip)', issue_body)
+    if not urls:
+        return False
+    url = urls[0]
+    try:
+        print(f"Downloading zip from {url}...")
+        urllib.request.urlretrieve(url, out_path)
+        print("Download complete.")
+        return True
+    except Exception as e:
+        print(f"Failed to download from {url}: {e}")
+        return False
+
 try:
-	archive = None
-	# adding more readable errors lol
-	try:
-		archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
-	except Exception as inst:
-		raise Exception("Unable to unzip, It may be the filename of zip presented. Make sure the packgen.zip file was not renamed.")
+    archive = None
+    try:
+        archive = zipfile.ZipFile('test/' + folderName + '.zip', 'r')
+    except Exception as inst:
+        print("Initial unzip failed, trying to find .zip in issue body...")
+        zip_path = f'test/{folderName}.zip'
+        if download_zip_from_issue(issue_body, zip_path):
+            try:
+                archive = zipfile.ZipFile(zip_path, 'r')
+            except Exception as inst2:
+                raise Exception("Unable to unzip even after downloading from issue body, the file may be corrupt or invalid.")
+        else:
+            raise Exception("Unable to unzip, and no valid .zip URL found in issue body. Make sure the packgen.zip file was not renamed and is attached.")
 	
 	file_list = archive.namelist()
 	packjson = {}
