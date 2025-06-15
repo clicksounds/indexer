@@ -59,17 +59,23 @@ try:
                 archive = zipfile.ZipFile(zip_path, 'r')
                 archive.extractall(f'test/{folderName}')
             except Exception as inst2:
-                raise Exception("Unable to unzip even after downloading from issue body, the file may be corrupt or invalid.")
+                raise Exception(f"Unable to unzip after download: {inst2}")
         else:
             raise Exception("Unable to unzip, and no valid .zip URL found in issue body. Make sure the packgen.zip file was not renamed and is attached.")
     
     file_list = archive.namelist()
     packjson = {}
+    packjson_path = None
     for x in file_list:
         if x.endswith("pack.json"):
+            packjson_path = f"test/{folderName}/{x}"
             packjson = json.loads(archive.open(x, 'r').read().decode('utf-8'))
+            # Apply edits to packjson
             for k, v in edit_commands.items():
                 packjson[k] = v
+            # Write the edited packjson back to disk so it gets copied/committed
+            with open(packjson_path, "w", encoding="utf-8") as f:
+                json.dump(packjson, f, indent=2)
             clickName = packjson["name"]
             clickType = packjson.get("type", "Missing Key")
 
