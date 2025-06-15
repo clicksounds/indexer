@@ -17,6 +17,7 @@ comment_body = sys.argv[2]
 edit_pattern = r"!edit\\s+(\\w+)\\s+(.+)"
 edits = re.findall(edit_pattern, comment_body, re.IGNORECASE)
 if not edits:
+    print("No !edit commands found.")
     sys.exit(0)
 
 edit_file = Path(f"edit_commands_{issue_number}.json")
@@ -26,14 +27,21 @@ if edit_file.exists():
 else:
     data = {}
 
+confirmation_lines = []
 for field, value in edits:
-    # Try to parse as JSON for lists/objects, else treat as string
-    value = value.strip('" ')
+    user_value = value.strip('" ')
     try:
-        parsed = json.loads(value)
+        parsed = json.loads(user_value)
         data[field] = parsed
+        shown_value = json.dumps(parsed)
     except Exception:
-        data[field] = value
+        data[field] = user_value
+        shown_value = user_value
+    confirmation_lines.append(f'`{field}` has been set to `{shown_value}`')
 
 with open(edit_file, "w") as f:
     json.dump(data, f, indent=2)
+
+# Output for workflow step
+confirmation = '\n'.join(confirmation_lines)
+print(f"::set-output name=edit_confirmation::{confirmation}")
