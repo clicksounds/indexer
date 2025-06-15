@@ -152,28 +152,16 @@ jobs:
       run: |
         python3 parse_edit.py "${{ github.event.issue.number }}" "${{ github.event.comment.body }}"
 
-    - name: Confirm Edit
-      if: steps.parse_edit.outcome == 'success' && startsWith(github.event.comment.body, '!edit')
-      uses: peter-evans/create-or-update-comment@v4
-      with:
-        issue-number: ${{ github.event.issue.number }}
-        body-path: code/.github/edit_confirmation.txt
-
-    - name: Log edit_commands file
-      if: steps.verify_user.outputs.result == 'YES' && startsWith(github.event.comment.body, '!edit')
-      run: |
-        echo "--- edit_commands_${{ github.event.issue.number }}.json contents ---"
-        cat edit_commands_${{ github.event.issue.number }}.json || echo "File not found."
-
-    - name: Log pack.json after edits (on accept)
-      if: steps.verify_user.outputs.result == 'YES' && contains(github.event.comment.body, '!accept')
-      run: |
-        echo "--- pack.json after edits ---"
-        find . -name pack.json -exec cat {} \;
-
     - name: List files in code/.github after edit
       if: steps.verify_user.outputs.result == 'YES' && startsWith(github.event.comment.body, '!edit')
       working-directory: code/.github
       run: |
         echo "--- Listing files in code/.github/ ---"
         ls -l
+
+    - name: Confirm Edit
+      if: steps.verify_user.outputs.result == 'YES' && startsWith(github.event.comment.body, '!edit')
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body-path: code/.github/edit_confirmation.txt
