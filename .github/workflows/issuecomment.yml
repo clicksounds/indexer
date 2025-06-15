@@ -170,3 +170,10 @@ jobs:
       run: |
         echo "--- pack.json after edits ---"
         find . -name pack.json -exec cat {} \;
+
+    - name: List files in code/.github after edit
+      if: steps.verify_user.outputs.result == 'YES' && startsWith(github.event.comment.body, '!edit')
+      working-directory: code/.github
+      run: |
+        echo "--- Listing files in code/.github/ ---"
+        ls -l
