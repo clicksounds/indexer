@@ -14,7 +14,7 @@ issue_number = sys.argv[1]
 comment_body = sys.argv[2]
 
 # Support multiple !edit commands in one comment, one per line
-edit_pattern = r"!edit\\s+(\\w+)\\s+(.+)"
+edit_pattern = r"!edit\s+(\w+)\s+(.+)"
 edits = re.findall(edit_pattern, comment_body, re.IGNORECASE)
 if not edits:
     print("No !edit commands found.")
