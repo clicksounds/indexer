@@ -9,7 +9,7 @@ body:
     id: zip
     attributes:
       label: Add Pack
-      description: Add your click sound files here in a **COMPRESSED *ZIP* FILE**, NOTHING ELSE (ZIP FILE MUST INCLUDE A pack.json FILE)
+      description: Add your .packgen.zip click pack file here. It **must** be in .packgen.zip format, ZCB click packs are not supported.
       placeholder: Input files here
     validations:
       required: true
