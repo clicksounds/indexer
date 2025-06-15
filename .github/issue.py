@@ -25,11 +25,19 @@ if len(sys.argv) == 3:
 else:
     issue_body = sys.argv[3]
 
+issue_number = os.environ.get("ISSUE_NUMBER")
+edit_commands = {}
+if issue_number:
+    edit_file = Path(f"edit_commands_{issue_number}.json")
+    if edit_file.exists():
+        with open(edit_file, "r") as f:
+            edit_commands = json.load(f)
+
 def sanitize_name(name):
     return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "").replace("Click", "").replace("clicks", "").replace("click", "").replace("Pack", "").replace("pack", "").replace("packs", "").replace("Packs", "").replace("Releases", "").replace("Release", "").replace("releases", "").replace("release", "")
 
 def download_zip_from_issue(issue_body, out_path):
-    urls = re.findall(r'(https://github\.com/user-attachments/files/[^\s]+\.zip)', issue_body)
+    urls = re.findall(r'(https://github\\.com/user-attachments/files/[^\\s]+\\.zip)', issue_body)
     if not urls:
         return False
     url = urls[0]
@@ -60,6 +68,8 @@ try:
     for x in file_list:
         if x.endswith("pack.json"):
             packjson = json.loads(archive.open(x, 'r').read().decode('utf-8'))
+            for k, v in edit_commands.items():
+                packjson[k] = v
             clickName = packjson["name"]
             clickType = packjson.get("type", "Missing Key")
 

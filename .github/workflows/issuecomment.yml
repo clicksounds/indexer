@@ -144,3 +144,8 @@ jobs:
       with:
         issue-number: ${{ github.event.issue.number }}
         comment: Successfully added your click sound!
+
+    - name: Parse Edit Commands
+      if: steps.verify_user.outputs.result == 'YES' && startsWith(github.event.comment.body, '!edit')
+      run: |
+        python3 code/.github/parse_edit.py "${{ github.event.issue.number }}" "${{ github.event.comment.body }}"

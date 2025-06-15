@@ -136,6 +136,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           VERIFY_USER_RESULT: ${{ steps.verify_user.outputs.result }}
           FOLDER_NAME: ${{ steps.download_file.outputs.folder }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
 
       - name: Push to clicks repository
         shell: bash
