@@ -156,8 +156,7 @@ jobs:
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: ${{ github.event.issue.number }}
-        body: |
-          ${{ steps.parse_edit.outputs.edit_confirmation }}
+        body-path: edit_confirmation.txt
 
     - name: Log edit_commands file
       if: steps.verify_user.outputs.result == 'YES' && startsWith(github.event.comment.body, '!edit')

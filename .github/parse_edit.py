@@ -44,4 +44,5 @@ with open(edit_file, "w") as f:
 
 # Output for workflow step
 confirmation = '\n'.join(confirmation_lines)
-print(f"::set-output name=edit_confirmation::{confirmation}")
+with open("edit_confirmation.txt", "w", encoding="utf-8") as f:
+    f.write(confirmation)
