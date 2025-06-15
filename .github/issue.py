@@ -25,19 +25,11 @@ if len(sys.argv) == 3:
 else:
     issue_body = sys.argv[3]
 
-issue_number = os.environ.get("ISSUE_NUMBER")
-edit_commands = {}
-if issue_number:
-    edit_file = Path(f"edit_commands_{issue_number}.json")
-    if edit_file.exists():
-        with open(edit_file, "r") as f:
-            edit_commands = json.load(f)
-
 def sanitize_name(name):
     return ((((''.join(c for c in name if c.isalnum() or c in ['.'] or c in [' '] or c in ['_'] or c in ['-']))).replace(" ", "_")).replace("-", "_")).replace(".", "_").replace("Clicks", "").replace("Click", "").replace("clicks", "").replace("click", "").replace("Pack", "").replace("pack", "").replace("packs", "").replace("Packs", "").replace("Releases", "").replace("Release", "").replace("releases", "").replace("release", "")
 
 def download_zip_from_issue(issue_body, out_path):
-    urls = re.findall(r'(https://github\\.com/user-attachments/files/[^\\s]+\\.zip)', issue_body)
+    urls = re.findall(r'(https://github\.com/user-attachments/files/[^\s]+\.zip)', issue_body)
     if not urls:
         return False
     url = urls[0]
@@ -59,23 +51,15 @@ try:
                 archive = zipfile.ZipFile(zip_path, 'r')
                 archive.extractall(f'test/{folderName}')
             except Exception as inst2:
-                raise Exception(f"Unable to unzip after download: {inst2}")
+                raise Exception("Unable to unzip even after downloading from issue body, the file may be corrupt or invalid.")
         else:
             raise Exception("Unable to unzip, and no valid .zip URL found in issue body. Make sure the packgen.zip file was not renamed and is attached.")
     
     file_list = archive.namelist()
     packjson = {}
-    packjson_path = None
     for x in file_list:
         if x.endswith("pack.json"):
-            packjson_path = f"test/{folderName}/{x}"
             packjson = json.loads(archive.open(x, 'r').read().decode('utf-8'))
-            # Apply edits to packjson
-            for k, v in edit_commands.items():
-                packjson[k] = v
-            # Write the edited packjson back to disk so it gets copied/committed
-            with open(packjson_path, "w", encoding="utf-8") as f:
-                json.dump(packjson, f, indent=2)
             clickName = packjson["name"]
             clickType = packjson.get("type", "Missing Key")
 
