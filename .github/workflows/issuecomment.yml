@@ -149,7 +149,7 @@ jobs:
       if: steps.verify_user.outputs.result == 'YES' && startsWith(github.event.comment.body, '!edit')
       id: parse_edit
       run: |
-        python3 code/.github/parse_edit.py "${{ github.event.issue.number }}" "${{ github.event.comment.user.login }}"
+        python3 code/.github/parse_edit.py "${{ github.event.issue.number }}" "${{ github.event.comment.body }}"
 
     - name: Confirm Edit
       if: steps.parse_edit.outcome == 'success' && startsWith(github.event.comment.body, '!edit')
