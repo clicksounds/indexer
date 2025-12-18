@@ -17,7 +17,7 @@ jobs:
       dirs: ${{ steps.dirs.outputs.dirs }}
       verified: ${{ steps.verify.outputs.verify }}
 
-    if: ${{ !github.event.issue.pull_request && !contains( github.event.pull_request.labels.*.name, 'psa') }}
+    if: ${{ !github.event.issue.pull_request }}
 
     steps:        
     - name: Checkout Clicks Indexer
@@ -144,4 +144,5 @@ jobs:
       with:
         issue-number: ${{ github.event.issue.number }}
         comment: Successfully added your click sound!
+
 
