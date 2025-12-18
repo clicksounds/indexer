@@ -8,7 +8,7 @@ on:
 jobs:
   issue_created:
     name: Check Issue
-    if: (!github.event.issue.pull_request && github.event.issue.state == 'open')
+    if: (!github.event.issue.pull_request && github.event.issue.state == 'open' && !contains( github.event.pull_request.labels.*.name, 'psa'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Clicks Indexer
@@ -174,3 +174,4 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             ${{ steps.add_entry.outputs.issue_output }}
+
