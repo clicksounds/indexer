@@ -100,12 +100,25 @@ Uploaded by: [{issue_author}](https://github.com/{issue_author})'''
 Uploaded by: [{issue_author}](https://github.com/{issue_author})
 Accepted by: [{comment_author}](https://github.com/{comment_author})'''
 
+    footer = (
+        '\n\nWant to try this click pack? Select it in game from the Click Sounds menu '
+        'after redownloading the Click Sounds Index.'
+    )
+
     if (AlreadyIsHere):
         title = f'Updated `{clickName}` Click Sound'
-        description = 'Updated ' + clickType + ' Sound ' + clickName + '!\n' + description
+        description = (
+            'Updated ' + clickType + ' Sound ' + clickName + '!\n'
+            + description
+            + footer
+        )
     else:
         title = f'Added `{clickName}` Click Sound'
-        description = 'New ' + clickType + ' Sound ' + clickName + '!\n' + description
+        description = (
+            'New ' + clickType + ' Sound ' + clickName + '!\n'
+            + description
+            + footer
+        )
 
     embeds = [
         {
