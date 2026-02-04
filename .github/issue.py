@@ -62,6 +62,7 @@ try:
             packjson = json.loads(archive.open(x, 'r').read().decode('utf-8'))
             clickName = packjson["name"]
             clickType = packjson.get("type", "Missing Key")
+            packBypass = packjson.get("bypass", False)
 
             if clickType.title() == "Meme":
                 clickType = "Meme"
@@ -177,6 +178,9 @@ try:
 except Exception as inst:
     fail(f'Could not populate pack folder {version_click_directory}: {inst}')
 
+if clickType == "Useful" and MaxFileCountClicks < 3 and not packBypass:
+    raise Exception("Useful click packs must contain at least 3 click sounds. This can be bypassed by an index moderator if necessary.")
+
 potential_issues = []
 if potential_issues:
     print('## Potential issues')
@@ -243,3 +247,4 @@ except Exception as e:
 if os.getenv('GITHUB_OUTPUT'):
     with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
         file.write(f'mod_id={clickName}\n')
+
