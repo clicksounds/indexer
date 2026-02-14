@@ -179,7 +179,7 @@ except Exception as inst:
     fail(f'Could not populate pack folder {version_click_directory}: {inst}')
 
 if clickType == "Useful" and MaxFileCountClicks < 3 and not packBypass:
-    fail("Useful click packs must contain at least 3 click sounds. This can be bypassed by an index moderator if necessary.")
+    fail(f"Useful click packs must contain at least 3 click sounds.\nThis can be bypassed by an index moderator if necessary.")
 
 potential_issues = []
 if potential_issues:
@@ -247,4 +247,5 @@ except Exception as e:
 if os.getenv('GITHUB_OUTPUT'):
     with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
         file.write(f'mod_id={clickName}\n')
+
 
