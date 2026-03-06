@@ -72,13 +72,13 @@ try:
                 if clickType == "Missing Key":
                     raise Exception("Type Key is missing or invalid")
                 else:
-                    raise Exception('Click type: "' + str(clickType) + '" Is not a valid click type, Meme or Useful are the only valid types')
+                    raise Exception('Click type: "' + str(clickType) + '" Is not a valid click pack type. Meme and Useful are the only valid types.')
 
             id2 = re.search(r'^([a-z0-9\-]+\.[a-z0-9\-_]+)$', packjson["id"])
             try:
                 modid = id2.group(1)
             except Exception as inst:
-                raise Exception("CLICK ID presented is not valid, You may have used a invalid char")
+                raise Exception("The click pack ID is not valid. You may have used a invalid character in the author or pack name, or submitted a click pack that is not in .packgen.zip format.")
             break
 
 except Exception as inst:
@@ -247,5 +247,6 @@ except Exception as e:
 if os.getenv('GITHUB_OUTPUT'):
     with open(os.getenv('GITHUB_OUTPUT'), 'a') as file:
         file.write(f'mod_id={clickName}\n')
+
 
 
