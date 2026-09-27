@@ -232,7 +232,7 @@ try:
 
         if (msg != ""):
             packDesc = f'\nPack description: {packjson["description"]}' if "description" in packjson else ""
-            print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to accept the submission.\n{msg}. {packgenStatus}{packconStatus}{packmakStatus}{packType}{packDesc}')
+            print(f'{packjson["name"]} ({modid}) {development} is waiting for an index moderator to accept the submission.\n{msg}. {packgenStatus}{packconStatus}{packmakStatus}{packType}{packDesc}\n\nIf you did not submit this click pack and you think it is good, reply \'vouch\' to boost it.')
         else:
             print(f'{packjson["name"]} ({modid}) {development} doesn\'t seem to have any click files?')
 finally:
