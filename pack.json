@@ -1,0 +1,12 @@
+{
+    "$schema": "https://clicksounds.github.io/clicks/pack.schema.json",
+    "id": "sivi.sayodevice",
+    "type": "Useful",
+    "name": "SayoDevice Clicks sivans",
+    "authors": [
+        {
+            "sivan": "the new creator",
+            "gdAccountID": 1
+        }
+    ]
+}
